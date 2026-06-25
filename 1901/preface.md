@@ -1,6 +1,6 @@
 # 前言
 
-**AI 科學技術史雜誌　1901 年號**
+**科學技術年鑑　1901 年號**
 
 編輯：[陳鍾誠](https://csie.nqu.edu.tw/p/404-1038-2377.php?Lang=zh-tw)
 
@@ -25,7 +25,7 @@
 
 ## 本期內容導覽
 
-本期《AI 科學技術史雜誌》帶您回顧 1901 年的重大[科學發現](https://zh.wikipedia.org/wiki/科學發現)、[技術突破](https://zh.wikipedia.org/wiki/技術)與[重要產品](https://zh.wikipedia.org/wiki/產品)。我們精心策劃了以下內容：
+本期《科學技術年鑑》帶您回顧 1901 年的重大[科學發現](https://zh.wikipedia.org/wiki/科學發現)、[技術突破](https://zh.wikipedia.org/wiki/技術)與[重要產品](https://zh.wikipedia.org/wiki/產品)。我們精心策劃了以下內容：
 
 ### 本年度科學
 - **電子發現**：湯姆森揭開原子結構的秘密

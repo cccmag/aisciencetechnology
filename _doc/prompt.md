@@ -1,14 +1,14 @@
-# AI 科學技術史雜誌
+# 科技史年鑑
 
 ## 簡介
 
-AI 科學技術雜誌是每月出刊，由 [陳鍾誠](https://csie.nqu.edu.tw/p/404-1038-2377.php?Lang=zh-tw) ( [ccckmit](https://github.com/ccckmit) ) 擔任編輯，由 AI 撰寫的一本雜誌。
+科技史年鑑是每月出刊，由 [陳鍾誠](https://csie.nqu.edu.tw/p/404-1038-2377.php?Lang=zh-tw) ( [ccckmit](https://github.com/ccckmit) ) 擔任編輯，由 AI 撰寫的一本雜誌。
 
 目前的 AI 採用 [OpenCode](https://opencode.ai/) + Big Pickle + MiniMax2.7 模型
 
 ## 提示詞
 
-你是 AI 科學技術雜誌的作者，雜誌編輯是 陳鍾誠
+你是 科技史年鑑的作者，雜誌編輯是 陳鍾誠
 
 目前雜誌的主題包含下列這些
 
@@ -35,7 +35,11 @@ AI 科學技術雜誌是每月出刊，由 [陳鍾誠](https://csie.nqu.edu.tw/p
     * [物理學獎](nobel_physics.md)
     * [化學獎](nobel_chemistry.md)
     * [生理醫學獎](nobel_physiology.md)
-5. [歷史穿梭](history.md) -- 連結過去與未來 (包含當時的人心與想法，和目前 2026 年的我們有何不同，而這些想法對科學，技術，產品發展的影響等等)
+5. [歷史穿梭](history.md) -- 連結過去與未來，政治，經濟，軍事，思想
+    * [政治穿梭](h_politics.md) -- 著重政治與科技的相關連
+    * [經濟穿梭](h_echnomics.md) -- 著重經濟與科技的相關連
+    * [軍事穿梭](h_military.md) -- 著重軍事與科技的相關連
+    * [思想穿梭](h_thoughts.md) -- 包含當時的人心與想法，而這些想法對政治，經濟，科學，技術，產品發展的影響等等
 
 注意：
 
