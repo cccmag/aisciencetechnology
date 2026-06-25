@@ -28,9 +28,9 @@
 
 ### 諾貝爾獎專題
 - [諾貝爾獎總覽](nobel.md) -- 2024年諾貝爾獎獲獎名單
-- [物理學獎：霍普菲爾德與類神經網路](nobel_physics.md) -- 機器學習的物理學基礎
-- [化學獎：貝克與蛋白質結構預測](nobel_chemistry.md) -- 蛋白質設計的計算方法
-- [生理醫學獎：安布羅斯與microRNA](nobel_physiology.md) -- 基因表達調控新機制
+- [物理學獎：霍普菲爾德、辛頓](nobel_physics.md) -- 機器學習的物理學基礎
+- [化學獎：貝克、哈薩比斯、瓊珀](nobel_chemistry.md) -- 蛋白質結構預測與設計
+- [生理醫學獎：安布羅斯、魯夫昆](nobel_physiology.md) -- microRNA與基因表達調控
 
 ### 歷史穿梭
 - [歷史穿梭](history.md) -- 類神經網路發展的歷史長鏈

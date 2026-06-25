@@ -28,9 +28,9 @@
 
 ### 諾貝爾獎專題
 - [諾貝爾獎總覽](nobel.md) -- 2023年諾貝爾獎獲獎名單
-- [物理學獎：阿戈斯蒂尼與雷射物理學](nobel_physics.md) -- 超短、超強雷射脈衝
-- [化學獎：巴克西與量子點](nobel_chemistry.md) -- 奈米晶體的發現與應用
-- [生理醫學獎：卡里科與mRNA疫苗](nobel_physiology.md) -- mRNA技術的突破
+- [物理學獎：阿戈斯蒂尼、克勞斯、呂利耶](nobel_physics.md) -- 阿秒雷射脈衝
+- [化學獎：巴文迪、布魯斯、葉基莫夫](nobel_chemistry.md) -- 量子點的發現與合成
+- [生理醫學獎：考里科、韋斯曼](nobel_physiology.md) -- mRNA疫苗技術突破
 
 ### 歷史穿梭
 - [歷史穿梭](history.md) -- mRNA疫苗的歷史坐標

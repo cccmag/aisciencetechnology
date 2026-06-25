@@ -28,9 +28,9 @@
 
 ### 5. 本年度諾貝爾獎
 - [諾貝爾獎總覽](nobel.md)
-- [物理學獎：重力波探測的貢獻者](nobel_physics.md)
-- [化學獎：分子機器的設計者](nobel_chemistry.md)
-- [生理醫學獎：細胞自噬機制的發現](nobel_physiology.md)
+- [物理學獎：索利斯、霍爾丹、科斯特利茨](nobel_physics.md) -- 拓撲相變與拓撲材料
+- [化學獎：斯托達特、索瓦日、費林加](nobel_chemistry.md) -- 分子機器
+- [生理醫學獎：大隅良典](nobel_physiology.md) -- 細胞自噬機制
 
 ### 6. 歷史穿梭
 - [連結過去與未來的科技發展](history.md)
