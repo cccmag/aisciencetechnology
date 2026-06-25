@@ -32,8 +32,8 @@
 
 - [諾貝爾獎總覽](nobel.md) -- 1938 年諾貝爾獎概述
 - [物理學獎：費米](nobel_physics.md) -- 中子轟擊技術與核反應
-- [化學獎：布特南](nobel_chemistry.md) -- 高壓物理學研究
-- [生理學或醫學獎：科恩](nobel_physiology.md) -- 甲狀腺激素與碘代谢研究
+- [化學獎：庫恩](nobel_chemistry.md) -- 類胡蘿蔔素與維生素研究
+- [生理學或醫學獎：海曼斯](nobel_physiology.md) -- 頸動脈竇呼吸調節機制
 
 ## 歷史穿梭
 

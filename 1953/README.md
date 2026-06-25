@@ -39,7 +39,7 @@
 1. [諾貝爾獎總覽](nobel.md) -- 1953年諾貝爾獎獲獎情況總覽
 2. [物理學獎：澤爾尼克](nobel_physics.md) -- 相襯顯微術的發明
 3. [化學獎：施陶丁格](nobel_chemistry.md) -- 高分子化學的奠基
-4. [生理學或醫學獎：李普曼](nobel_physiology.md) -- 輔酶A的發現
+4. [生理學或醫學獎：克雷布斯、李普曼](nobel_physiology.md) -- 檸檬酸循環與輔酶A的發現
 
 ### 歷史穿梭
 

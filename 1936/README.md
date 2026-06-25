@@ -31,9 +31,9 @@
 ## 諾貝爾獎專題
 
 - [諾貝爾獎總覽](nobel.md) -- 1936 年諾貝爾獎概述
-- [物理學獎：密立根](nobel_physics.md) -- 帶電粒子性質研究
+- [物理學獎：赫斯、安德森](nobel_physics.md) -- 宇宙射線與正電子的發現
 - [化學獎：德拜](nobel_chemistry.md) -- 分子結構與極化率
-- [生理醫學獎：沃爾蒂](nobel_physiology.md) -- 肝臟代谢研究
+- [生理醫學獎：戴爾、勒維](nobel_physiology.md) -- 神經衝動的化學傳遞研究
 
 ## 歷史穿梭
 

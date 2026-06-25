@@ -27,10 +27,10 @@
 5. [攝影技術的進步](./product5.md) -- 記錄與記憶
 
 ### 諾貝爾獎專題
-1. [1917 年諾貝爾獎總覽](./nobel.md) -- 獎項持續停發
-2. [物理學獎](./nobel_physics.md) -- （本年停發）
-3. [化學獎](./nobel_chemistry.md) -- （本年停發）
-4. [生理醫學獎](./nobel_physiology.md) -- （本年停發）
+1. [1917 年諾貝爾獎總覽](./nobel.md) -- 一戰期間，物理學獎恢復頒發
+2. [物理學獎：巴克拉](nobel_physics.md) -- 特徵X射線的發現
+3. [化學獎](./nobel_chemistry.md) -- （未頒發）
+4. [生理醫學獎](./nobel_physiology.md) -- （未頒發）
 
 ### 歷史穿梭
 1. [從打字機到個人電腦](./history.md) -- 百年輸入設備的演進

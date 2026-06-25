@@ -28,9 +28,9 @@
 
 ### 諾貝爾獎專題
 1. [1975 年諾貝爾獎總覽](nobel.md)
-2. [物理學獎：原子核結構的統一理論](nobel_physics.md)
-3. [化學獎：酶催化的立體化學](nobel_chemistry.md)
-4. [生理醫學獎：腫瘤病毒的逆轉錄機制](nobel_physiology.md)
+2. [物理學獎：玻爾、莫特森、雷恩沃特](nobel_physics.md) -- 原子核結構理論
+3. [化學獎：康福思、普雷洛格](nobel_chemistry.md) -- 立體化學與酶催化
+4. [生理醫學獎：巴爾的摩、杜爾貝科、特明](nobel_physiology.md) -- 腫瘤病毒與逆轉錄酶
 
 ### 歷史穿梭
 1. [從 DNA 到電腦：科技發展的長河](history.md)

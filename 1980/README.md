@@ -37,9 +37,9 @@
 ### 諾貝爾獎專題
 
 1. [諾貝爾獎總覽](nobel.md) -- 1980年諾貝爾獎獲獎情況
-2. [物理學獎：CP破壞的發現](nobel_physics.md) -- 克羅寧和菲奇
-3. [化學獎：重組DNA技術](nobel_chemistry.md) -- 保羅·伯格
-4. [生理學或醫學獎：免疫遺傳學](nobel_physiology.md) -- 免疫系統的遺傳學基礎
+2. [物理學獎：克羅寧、菲奇](nobel_physics.md) -- CP破壞的發現
+3. [化學獎：伯格、吉爾伯特、桑格](nobel_chemistry.md) -- 重組DNA與DNA定序
+4. [生理學或醫學獎：貝納塞拉夫、多塞、斯內爾](nobel_physiology.md) -- 免疫系統的遺傳學基礎
 
 ### 歷史穿梭
 

@@ -29,8 +29,8 @@
 ### 諾貝爾獎專題
 1. [諾貝爾獎總覽](nobel.md) -- 1968年諾貝爾獎綜述
 2. [物理學獎：阿爾瓦雷斯](nobel_physics.md) -- 粒子物理學發現
-3. [化學獎：伍德沃德](nobel_chemistry.md) -- 有機合成大師
-4. [生理醫學獎：斯庫利](nobel_physiology.md) -- 遺傳學發現
+3. [化學獎：昂薩格](nobel_chemistry.md) -- 不可逆過程熱力學
+4. [生理醫學獎：霍利、科拉納、尼倫伯格](nobel_physiology.md) -- 遺傳密碼的破譯
 
 ### 歷史穿梭
 1. [從積體電路到微處理器](history.md) -- 半導體革命的未來

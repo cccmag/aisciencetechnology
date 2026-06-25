@@ -39,9 +39,9 @@
 ### 諾貝爾獎專題
 
 1. [諾貝爾獎總覽](nobel.md) -- 2008 年諾貝爾獎獲獎名單
-2. [物理學獎：自發對稱性破缺](nobel_physics.md) -- 南部陽一郎
-3. [化學獎：綠色熒光蛋白](nobel_chemistry.md) -- 下村修
-4. [生理學獎：HPV 和 HIV](nobel_physiology.md) -- 哈拉爾德·楚爾·豪森
+2. [物理學獎：南部陽一郎、小林誠、益川敏英](nobel_physics.md) -- 自發對稱性破缺與CP破壞
+3. [化學獎：下村脩、查爾菲、錢永健](nobel_chemistry.md) -- 綠色螢光蛋白
+4. [生理學獎：楚爾豪森、巴雷-西努西、蒙塔尼耶](nobel_physiology.md) -- HPV與HIV病毒研究
 
 ### 歷史穿梭
 

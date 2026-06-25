@@ -28,9 +28,9 @@
 
 ### 諾貝爾獎專題
 1. [1960 年諾貝爾獎總覽](./nobel.md)
-2. [物理學獎：雷射與微波激射](./nobel_physics.md)
-3. [化學獎：放射性碳定年法](./nobel_chemistry.md)
-4. [生理學或醫學獎：免疫耐受性](./nobel_physiology.md)
+2. [物理學獎：格拉澤](./nobel_physics.md) -- 氣泡室的發明
+3. [化學獎：利比](./nobel_chemistry.md) -- 放射性碳定年法
+4. [生理學或醫學獎：伯內特、梅達沃](./nobel_physiology.md) -- 免疫耐受性的發現
 
 ### 歷史穿梭
 1. [從雷射到光纖通信](./history.md) -- 光資訊革命的未來

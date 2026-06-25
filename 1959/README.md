@@ -28,9 +28,9 @@
 
 ### 諾貝爾獎專題
 1. [1959 年諾貝爾獎總覽](./nobel.md)
-2. [物理學獎：反質子發現](./nobel_physics.md)
-3. [化學獎：極譜分析](./nobel_chemistry.md)
-4. [生理學或醫學獎：核酸合成](./nobel_physiology.md)
+2. [物理學獎：塞格雷、張伯倫](./nobel_physics.md) -- 反質子的發現
+3. [化學獎：海羅夫斯基](./nobel_chemistry.md) -- 極譜法的發明
+4. [生理學或醫學獎：奧喬亞、科恩伯格](./nobel_physiology.md) -- 核酸的酶促合成
 
 ### 歷史穿梭
 1. [從反粒子到反物質](./history.md) -- 粒子物理與宇宙起源

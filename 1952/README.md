@@ -38,8 +38,8 @@
 
 1. [諾貝爾獎總覽](nobel.md) -- 1952年諾貝爾獎獲獎情況總覽
 2. [物理學獎：布洛赫與珀塞爾](nobel_physics.md) -- 核磁共振的發現
-3. [化學獎：里奇](nobel_chemistry.md) -- 電泳技術的發展
-4. [生理學或醫學獎：瓦爾斯曼](nobel_physiology.md) -- 鏈黴素的發現
+3. [化學獎：馬丁、辛格](nobel_chemistry.md) -- 分配色譜法的發明
+4. [生理學或醫學獎：瓦克斯曼](nobel_physiology.md) -- 鏈黴素的發現
 
 ### 歷史穿梭
 

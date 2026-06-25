@@ -28,9 +28,9 @@
 
 ### 諾貝爾獎專題
 1. [1956 年諾貝爾獎總覽](./nobel.md)
-2. [物理學獎：電晶體的發明](./nobel_physics.md)
-3. [化學獎：化學反應機制](./nobel_chemistry.md)
-4. [生理醫學獎：心臟導管術](./nobel_physiology.md)
+2. [物理學獎：巴丁、布拉頓、肖克利](./nobel_physics.md) -- 電晶體的發明
+3. [化學獎：欣謝爾伍德、謝苗諾夫](./nobel_chemistry.md) -- 化學反應速率理論
+4. [生理醫學獎：庫爾南、福斯曼、理查茲](./nobel_physiology.md) -- 心臟導管術
 
 ### 歷史穿梭
 1. [從電晶體到未來科技](./history.md) -- 連結過去與未來的科技發展

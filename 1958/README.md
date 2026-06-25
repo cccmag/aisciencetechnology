@@ -28,9 +28,9 @@
 
 ### 諾貝爾獎專題
 1. [1958 年諾貝爾獎總覽](./nobel.md)
-2. [物理學獎：切連科夫輻射](./nobel_physics.md)
-3. [化學獎：胰島素結構](./nobel_chemistry.md)
-4. [生理學或醫學獎：基因調控](./nobel_physiology.md)
+2. [物理學獎：切倫科夫、弗蘭克、塔姆](./nobel_physics.md) -- 切連科夫輻射的解釋
+3. [化學獎：桑格](./nobel_chemistry.md) -- 胰島素結構測定
+4. [生理學或醫學獎：比德爾、塔特姆、萊德伯格](./nobel_physiology.md) -- 基因調控與細菌遺傳重組
 
 ### 歷史穿梭
 1. [從積體電路到摩爾定律](./history.md) -- 半導體技術的指數成長

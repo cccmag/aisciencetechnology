@@ -32,8 +32,8 @@
 
 - [諾貝爾獎總覽](nobel.md) -- 1937 年諾貝爾獎概述
 - [物理學獎：戴維森、湯姆森](nobel_physics.md) -- 電子衍射實驗
-- [化學獎：哈沃斯](nobel_chemistry.md) -- 碳水化合物化學
-- [生理醫學獎：格萊特](nobel_physiology.md) -- 甲狀腺相關研究
+- [化學獎：哈沃斯、卡勒](nobel_chemistry.md) -- 碳水化合物與維生素研究
+- [生理醫學獎：森特-焦爾吉](nobel_physiology.md) -- 維生素C與細胞呼吸研究
 
 ## 歷史穿梭
 

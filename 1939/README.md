@@ -32,8 +32,8 @@
 
 - [諾貝爾獎總覽](nobel.md) -- 1939 年諾貝爾獎概述
 - [物理學獎：勞倫斯](nobel_physics.md) -- 迴旋加速器的發明
-- [化學獎：盧齊卡](nobel_chemistry.md) -- 萜類化合物和維生素研究
-- [生理學或醫學獎：蓋達塞克](nobel_physiology.md) -- 甲狀腺生理學研究
+- [化學獎：布特南特、魯日奇卡](nobel_chemistry.md) -- 性激素與萜類化合物研究
+- [生理學或醫學獎：多馬克](nobel_physiology.md) -- 百浪多息的抗菌作用
 
 ## 歷史穿梭
 

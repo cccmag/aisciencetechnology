@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>科學技術年鑑 — 1901–2026 互動瀏覽</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    background: #0f0f12;
+    color: #e0e0e0;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+    padding: 1.5rem 1.5rem 1rem;
+    text-align: center;
+    border-bottom: 2px solid #1a4a7a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    background: linear-gradient(90deg, #e8d5b7, #ffd700, #e8d5b7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .header p.sub { color: #778; font-size: 0.8rem; margin-top: 0.2rem; }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 0;
+    background: #16161e;
+    border-bottom: 1px solid #2a2a3e;
+    overflow-x: auto;
+    position: sticky;
+    top: 92px;
+    z-index: 99;
+  }
+  .tab {
+    padding: 0.7rem 1.2rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #778;
+    border-bottom: 3px solid transparent;
+    transition: 0.2s;
+    white-space: nowrap;
+    user-select: none;
+  }
+  .tab:hover { color: #aab; background: #1a1a28; }
+  .tab.active { color: #ffd700; border-bottom-color: #ffd700; }
+
+  /* Main content */
+  .main { max-width: 1100px; margin: 0 auto; padding: 1.2rem; }
+
+  /* === View containers === */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* === Timeline View === */
+  .nav-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .nav-btn {
+    background: #1e2a3e;
+    border: 1px solid #2a3a5a;
+    color: #c0d0e0;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: 0.2s;
+    flex-shrink: 0;
+  }
+  .nav-btn:hover { background: #2a3a5a; border-color: #4a7aaa; }
+  .year-display { flex: 1; text-align: center; }
+  .year-number { font-size: 2.8rem; font-weight: 800; }
+  .year-theme { font-size: 0.9rem; color: #8899aa; margin-top: 0.1rem; }
+
+  .year-slider {
+    width: 100%;
+    margin-bottom: 0.8rem;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #5c3a1e, #4a1a1a, #1e4a3a, #1a2a5a, #3a1a5a);
+    outline: none;
+  }
+  .year-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #ffd700;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 0 8px rgba(255,215,0,0.5);
+  }
+
+  .era-badge {
+    display: inline-block;
+    padding: 0.2rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 0.3rem;
+    letter-spacing: 0.05em;
+  }
+  .era-pioneer { background: #5c3a1e; color: #f0d5a0; }
+  .era-war     { background: #4a1a1a; color: #e8b0b0; }
+  .era-golden  { background: #1e4a3a; color: #a0e0c0; }
+  .era-digital { background: #1a2a5a; color: #a0b0f0; }
+  .era-net     { background: #2a3a5a; color: #b0c0ff; }
+  .era-ai      { background: #3a1a5a; color: #d0a0f0; }
+
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  @media (max-width: 650px) { .cards { grid-template-columns: 1fr; } }
+
+  .card {
+    background: #1a1a24;
+    border: 1px solid #2a2a3e;
+    border-radius: 10px;
+    padding: 1rem 1rem 0.6rem;
+    transition: 0.2s;
+  }
+  .card:hover { border-color: #4a4a6a; }
+  .card h3 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid;
+  }
+  .card-science h3 { color: #4fc3f7; border-color: #1a4a6a; }
+  .card-tech    h3 { color: #81c784; border-color: #1a5a2a; }
+  .card-product h3 { color: #ffb74d; border-color: #5a3a1a; }
+  .card-nobel   h3 { color: #e57373; border-color: #5a1a1a; }
+
+  .card ul { list-style: none; }
+  .card ul li {
+    padding: 0.25rem 0;
+    font-size: 0.85rem;
+    line-height: 1.35;
+    border-bottom: 1px solid #222;
+  }
+  .card ul li:last-child { border-bottom: none; }
+
+  .card-nobel .nobel-item { margin-bottom: 0.3rem; }
+  .card-nobel .nobel-field {
+    font-weight: 600; font-size: 0.72rem; color: #99aabb;
+    display: inline-block; min-width: 3.2rem;
+  }
+  .card-nobel .nobel-detail { font-size: 0.83rem; }
+  .card-nobel .nobel-note {
+    margin-top: 0.4rem; font-size: 0.78rem;
+    color: #778899; font-style: italic;
+  }
+
+  /* === Category Views === */
+  .cat-filters {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  .cat-filter {
+    background: #1a1a28;
+    border: 1px solid #2a2a3e;
+    color: #889;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: 0.2s;
+  }
+  .cat-filter:hover { border-color: #4a6a; }
+  .cat-filter.active { background: #2a4a3a; color: #a0e0c0; border-color: #4a8a6a; }
+
+  .cat-list { display: flex; flex-direction: column; gap: 0.4rem; }
+  .cat-item {
+    background: #1a1a24;
+    border: 1px solid #2a2a3e;
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+    transition: 0.15s;
+  }
+  .cat-item:hover { border-color: #4a4a6a; }
+  .cat-item .cyear {
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: #ffd700;
+    min-width: 3.2rem;
+    flex-shrink: 0;
+    text-align: right;
+  }
+  .cat-item .ctext { font-size: 0.88rem; line-height: 1.35; }
+  .cat-item .cicon {
+    flex-shrink: 0;
+    font-size: 0.9rem;
+  }
+
+  /* === Nobel View === */
+  .nobel-top {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .nobel-tab {
+    background: #1a1a28;
+    border: 1px solid #2a2a3e;
+    color: #889;
+    padding: 0.5rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: 0.2s;
+  }
+  .nobel-tab:hover { border-color: #5a3a3a; }
+  .nobel-tab.active { background: #3a1a1a; color: #e0a0a0; border-color: #6a2a2a; }
+
+  .nobel-list { display: flex; flex-direction: column; gap: 0.4rem; }
+
+  .nobel-entry {
+    background: #1a1a24;
+    border: 1px solid #2a2a3e;
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+    transition: 0.15s;
+  }
+  .nobel-entry:hover { border-color: #5a3a3a; }
+  .nobel-entry .nyear {
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: #ffd700;
+    min-width: 3rem;
+    flex-shrink: 0;
+    text-align: right;
+  }
+  .nobel-entry .ncat {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    flex-shrink: 0;
+    min-width: 3rem;
+    text-align: center;
+  }
+  .nobel-entry .ncat.n-physics { background: #1a3a5a; color: #8ab4f8; }
+  .nobel-entry .ncat.n-chemistry { background: #1a4a2a; color: #81c784; }
+  .nobel-entry .ncat.n-medicine { background: #4a1a1a; color: #e57373; }
+  .nobel-entry .ndetail { font-size: 0.85rem; }
+  .nobel-entry .ndetail .nperson { color: #d0d; }
+  .nobel-entry .ndetail .nwork { color: #889; font-size: 0.8rem; }
+
+  .nobel-empty {
+    background: #1a1a24;
+    border: 1px dashed #3a3a3a;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    color: #556;
+    font-size: 0.85rem;
+  }
+
+  /* === Search === */
+  .search-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .search-bar input {
+    flex: 1;
+    background: #1a1a24;
+    border: 1px solid #2a2a3e;
+    color: #e0e0e0;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    outline: none;
+  }
+  .search-bar input:focus { border-color: #ffd700; }
+  .search-bar input::placeholder { color: #445; }
+
+  .search-count {
+    font-size: 0.8rem;
+    color: #667;
+    margin-bottom: 0.5rem;
+  }
+
+  .loading { text-align: center; padding: 4rem; color: #556; }
+
+  /* === Footer === */
+  .footer {
+    text-align: center;
+    padding: 2rem;
+    color: #445;
+    font-size: 0.78rem;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #111; }
+  ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+  .fade-in { animation: fi 0.3s ease; }
+  @keyframes fi { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .tl-bar {
+    display: flex; gap: 2px; margin-bottom: 0.8rem; height: 10px;
+    border-radius: 5px; overflow: hidden;
+  }
+  .tl-bar div { flex: 1; cursor: pointer; opacity: 0.4; transition: 0.15s; }
+  .tl-bar div:hover { opacity: 0.8; }
+  .tl-bar div.active { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>科學技術年鑑</h1>
+  <p class="sub">1901–2026 ・ 科學 ・ 技術 ・ 產品 ・ 諾貝爾獎</p>
+</div>
+
+<div class="tabs" id="tabs">
+  <div class="tab active" data-view="timeline">⏳ 時間線</div>
+  <div class="tab" data-view="science">🔬 科學</div>
+  <div class="tab" data-view="tech">⚙️ 技術</div>
+  <div class="tab" data-view="product">📦 產品</div>
+  <div class="tab" data-view="nobel">🏆 諾貝爾獎</div>
+  <div class="tab" data-view="search">🔍 搜尋</div>
+</div>
+
+<div class="main" id="app">
+  <div class="loading" id="loading">載入資料中⋯</div>
+</div>
+
+<div class="footer">科學技術年鑑 · 編輯 陳鍾誠</div>
+
+<script>
+const VIEWS = ['timeline','science','tech','product','nobel','search'];
+let DATA = {};
+
+async function init() {
+  try {
+    const r = await fetch('data.json');
+    DATA = await r.json();
+    document.getElementById('loading').remove();
+    buildTimelineView();
+    buildScienceView();
+    buildTechView();
+    buildProductView();
+    buildNobelView();
+    buildSearchView();
+    setupTabs();
+  } catch(e) {
+    document.getElementById('loading').textContent = '⚠️ 資料載入失敗：' + e.message;
+  }
+}
+
+function setupTabs() {
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      const v = document.getElementById('view-' + t.dataset.view);
+      if (v) v.classList.add('active');
+    });
+  });
+}
+
+function switchView(name) {
+  document.querySelectorAll('.tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.view === name);
+  });
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const el = document.getElementById('view-' + name);
+  if (el) el.classList.add('active');
+}
+
+function getEra(y) {
+  const n = parseInt(y);
+  if (n <= 1913) return { id: 'pioneer', label: '探索時代 1901–1913', color: '#8b6914' };
+  if (n <= 1945) return { id: 'war', label: '戰爭時代 1914–1945', color: '#8b2020' };
+  if (n <= 1969) return { id: 'golden', label: '黃金時代 1945–1969', color: '#208b40' };
+  if (n <= 1999) return { id: 'digital', label: '數位時代 1970–1999', color: '#3050c0' };
+  if (n <= 2019) return { id: 'net', label: '網路時代 2000–2019', color: '#4060d0' };
+  return { id: 'ai', label: 'AI 時代 2020–2026', color: '#8040c0' };
+}
+
+function esc(s) {
+  if (!s) return '';
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+/* ========== TIMELINE VIEW ========== */
+function buildTimelineView() {
+  const main = document.getElementById('app');
+  const years = Object.keys(DATA).sort();
+
+  const container = document.createElement('div');
+  container.id = 'view-timeline';
+  container.className = 'view active';
+
+  // mini timeline bar
+  const tlBar = document.createElement('div');
+  tlBar.className = 'tl-bar';
+  years.forEach(y => {
+    const seg = document.createElement('div');
+    seg.style.background = getEra(y).color;
+    seg.dataset.year = y;
+    seg.title = y;
+    seg.addEventListener('click', () => goYear(y));
+    tlBar.appendChild(seg);
+  });
+  container.appendChild(tlBar);
+
+  // slider
+  const slider = document.createElement('input');
+  slider.type = 'range';
+  slider.className = 'year-slider';
+  slider.min = years[0];
+  slider.max = years[years.length-1];
+  slider.value = years[0];
+  slider.id = 'yearSlider';
+  container.appendChild(slider);
+
+  // nav
+  const nav = document.createElement('div');
+  nav.className = 'nav-area';
+  nav.innerHTML = `
+    <button class="nav-btn" id="prevBtn">◀</button>
+    <div class="year-display">
+      <div class="year-number" id="yearNumber">${years[0]}</div>
+      <div class="year-theme" id="yearTheme"></div>
+      <span class="era-badge" id="eraBadge"></span>
+    </div>
+    <button class="nav-btn" id="nextBtn">▶</button>
+  `;
+  container.appendChild(nav);
+
+  const cards = document.createElement('div');
+  cards.className = 'cards fade-in';
+  cards.id = 'tlCards';
+  container.appendChild(cards);
+
+  main.appendChild(container);
+
+  slider.addEventListener('input', e => goYear(parseInt(e.target.value)));
+  nav.querySelector('#prevBtn').addEventListener('click', () => {
+    const cur = parseInt(document.getElementById('yearNumber').textContent);
+    if (cur > parseInt(years[0])) goYear(cur - 1);
+  });
+  nav.querySelector('#nextBtn').addEventListener('click', () => {
+    const cur = parseInt(document.getElementById('yearNumber').textContent);
+    if (cur < parseInt(years[years.length-1])) goYear(cur + 1);
+  });
+  document.addEventListener('keydown', e => {
+    const cur = parseInt(document.getElementById('yearNumber').textContent);
+    if (e.key === 'ArrowLeft' && cur > parseInt(years[0])) goYear(cur - 1);
+    if (e.key === 'ArrowRight' && cur < parseInt(years[years.length-1])) goYear(cur + 1);
+  });
+
+  goYear(years[0]);
+}
+
+let currentYear = '1901';
+
+function goYear(y) {
+  currentYear = String(y);
+  const d = DATA[currentYear];
+  if (!d) return;
+
+  document.getElementById('yearNumber').textContent = currentYear;
+  document.getElementById('yearSlider').value = currentYear;
+  const era = getEra(currentYear);
+  const badge = document.getElementById('eraBadge');
+  badge.textContent = era.label;
+  badge.className = 'era-badge era-' + era.id;
+
+  document.querySelectorAll('.tl-bar div').forEach(s => {
+    s.classList.toggle('active', s.dataset.year === currentYear);
+  });
+
+  const theme = document.getElementById('yearTheme');
+  // Try to infer theme from first science entry
+  if (d.science && d.science.length > 0) {
+    theme.textContent = d.science[0].split('：')[0].substring(0, 20) + '⋯';
+  } else {
+    theme.textContent = currentYear + ' 年科學技術';
+  }
+
+  renderTLCards(currentYear);
+}
+
+function renderTLCards(year) {
+  const d = DATA[year];
+  if (!d) return;
+  const c = document.getElementById('tlCards');
+  c.innerHTML = '';
+
+  const hasScience = d.science && d.science.length > 0 && d.science[0] !== '';
+  const hasTech = d.tech && d.tech.length > 0 && d.tech[0] !== '';
+  const hasProduct = d.product && d.product.length > 0 && d.product[0] !== '';
+  const hasNobel = d.nobel && d.nobel.awarded;
+
+  if (!hasScience && !hasTech && !hasProduct && !hasNobel) {
+    c.innerHTML = '<div class="card" style="grid-column:1/-1;text-align:center;padding:2rem;color:#556;">📚 ' + year + ' 年的資料整理中</div>';
+    return;
+  }
+
+  if (hasScience) c.appendChild(makeTLCard('science', '🔬 科學', d.science));
+  if (hasTech) c.appendChild(makeTLCard('tech', '⚙️ 技術', d.tech));
+  if (hasProduct) c.appendChild(makeTLCard('product', '📦 產品', d.product));
+  c.appendChild(makeTLNobel(d.nobel));
+}
+
+function makeTLCard(type, title, items) {
+  const div = document.createElement('div');
+  div.className = 'card card-' + type;
+  let h = `<h3>${title}</h3><ul>`;
+  items.forEach(it => {
+    if (it) h += `<li>${esc(it)}</li>`;
+  });
+  h += '</ul>';
+  div.innerHTML = h;
+  return div;
+}
+
+function makeTLNobel(n) {
+  const div = document.createElement('div');
+  div.className = 'card card-nobel';
+  if (!n || !n.awarded) {
+    div.innerHTML = '<h3>🏆 諾貝爾獎</h3><div style="padding:0.4rem 0;color:#556;font-size:0.85rem;">本年未頒發</div>';
+    return div;
+  }
+  let h = '<h3>🏆 諾貝爾獎</h3>';
+  if (n.physics && !n.physics.includes('停發') && !n.physics.includes('未頒發')) {
+    h += `<div class="nobel-item"><span class="nobel-field">物理</span><span class="nobel-detail">${esc(n.physics)}</span></div>`;
+  }
+  if (n.chemistry && !n.chemistry.includes('停發') && !n.chemistry.includes('未頒發')) {
+    h += `<div class="nobel-item"><span class="nobel-field">化學</span><span class="nobel-detail">${esc(n.chemistry)}</span></div>`;
+  }
+  if (n.physiology && !n.physiology.includes('停發') && !n.physiology.includes('未頒發')) {
+    h += `<div class="nobel-item"><span class="nobel-field">醫學</span><span class="nobel-detail">${esc(n.physiology)}</span></div>`;
+  }
+  if (n.note) h += `<div class="nobel-note">📌 ${esc(n.note)}</div>`;
+  div.innerHTML = h;
+  return div;
+}
+
+/* ========== CATEGORY VIEWS ========== */
+function buildCategoryView(catKey, title, icon) {
+  const main = document.getElementById('app');
+  const container = document.createElement('div');
+  container.id = 'view-' + catKey;
+  container.className = 'view';
+
+  // filter by era
+  const filterBar = document.createElement('div');
+  filterBar.className = 'cat-filters';
+  const eras = [
+    { id: 'all', label: '全部' },
+    { id: 'pioneer', label: '🕰 探索 1901–1913' },
+    { id: 'war', label: '⚔️ 戰爭 1914–1945' },
+    { id: 'golden', label: '🌟 黃金 1945–1969' },
+    { id: 'digital', label: '💻 數位 1970–1999' },
+    { id: 'net', label: '🌐 網路 2000–2019' },
+    { id: 'ai', label: '🤖 AI 2020–2026' },
+  ];
+  eras.forEach(e => {
+    const btn = document.createElement('span');
+    btn.className = 'cat-filter' + (e.id === 'all' ? ' active' : '');
+    btn.textContent = e.label;
+    btn.dataset.era = e.id;
+    btn.addEventListener('click', () => {
+      filterBar.querySelectorAll('.cat-filter').forEach(x => x.classList.remove('active'));
+      btn.classList.add('active');
+      renderCatList(catKey, e.id);
+    });
+    filterBar.appendChild(btn);
+  });
+  container.appendChild(filterBar);
+
+  const list = document.createElement('div');
+  list.className = 'cat-list';
+  list.id = 'catList-' + catKey;
+  container.appendChild(list);
+  main.appendChild(container);
+
+  renderCatList(catKey, 'all');
+}
+
+function renderCatList(catKey, eraFilter) {
+  const list = document.getElementById('catList-' + catKey);
+  list.innerHTML = '';
+  const years = Object.keys(DATA).sort((a,b) => a-b);
+
+  let items = [];
+  years.forEach(y => {
+    const d = DATA[y];
+    if (!d) return;
+    const arr = d[catKey];
+    if (!arr || arr.length === 0 || arr[0] === '') return;
+    const era = getEra(y);
+    if (eraFilter !== 'all' && era.id !== eraFilter) return;
+    arr.forEach((item, idx) => {
+      if (item) items.push({ year: y, text: item, idx });
+    });
+  });
+
+  if (items.length === 0) {
+    list.innerHTML = '<div class="nobel-empty">沒有符合的資料</div>';
+    return;
+  }
+
+  // Group by year for compact display
+  let currentY = '';
+  items.forEach(it => {
+    const div = document.createElement('div');
+    div.className = 'cat-item fade-in';
+    div.innerHTML = `
+      <span class="cicon">${it.idx === 0 ? '★' : '·'}</span>
+      <span class="cyear">${it.year}</span>
+      <span class="ctext">${esc(it.text)}</span>
+    `;
+    div.addEventListener('click', () => { switchView('timeline'); goYear(it.year); });
+    div.style.cursor = 'pointer';
+    list.appendChild(div);
+  });
+}
+
+function buildScienceView() { buildCategoryView('science', '科學', '🔬'); }
+function buildTechView() { buildCategoryView('tech', '技術', '⚙️'); }
+function buildProductView() { buildCategoryView('product', '產品', '📦'); }
+
+/* ========== NOBEL VIEW ========== */
+function buildNobelView() {
+  const main = document.getElementById('app');
+  const container = document.createElement('div');
+  container.id = 'view-nobel';
+  container.className = 'view';
+
+  const top = document.createElement('div');
+  top.className = 'nobel-top';
+  const cats = [
+    { id: 'all', label: '🏆 全部' },
+    { id: 'physics', label: '🔬 物理學' },
+    { id: 'chemistry', label: '🧪 化學' },
+    { id: 'physiology', label: '💊 生理醫學' },
+  ];
+  cats.forEach(c => {
+    const btn = document.createElement('span');
+    btn.className = 'nobel-tab' + (c.id === 'all' ? ' active' : '');
+    btn.textContent = c.label;
+    btn.dataset.ncat = c.id;
+    btn.addEventListener('click', () => {
+      top.querySelectorAll('.nobel-tab').forEach(x => x.classList.remove('active'));
+      btn.classList.add('active');
+      renderNobelList(c.id);
+    });
+    top.appendChild(btn);
+  });
+  container.appendChild(top);
+
+  const list = document.createElement('div');
+  list.className = 'nobel-list';
+  list.id = 'nobelList';
+  container.appendChild(list);
+  main.appendChild(container);
+
+  renderNobelList('all');
+}
+
+function renderNobelList(filter) {
+  const list = document.getElementById('nobelList');
+  list.innerHTML = '';
+  const years = Object.keys(DATA).sort((a,b) => a-b);
+
+  const entries = [];
+  years.forEach(y => {
+    const d = DATA[y];
+    if (!d || !d.nobel || !d.nobel.awarded) return;
+    const n = d.nobel;
+    const cats = [
+      { key: 'physics', label: '物理' },
+      { key: 'chemistry', label: '化學' },
+      { key: 'physiology', label: '醫學' },
+    ];
+    cats.forEach(c => {
+      if (n[c.key] && !n[c.key].includes('停發') && !n[c.key].includes('未頒發') && !n[c.key].includes('（本年')) {
+        if (filter === 'all' || filter === c.key) {
+          entries.push({ year: y, cat: c.key, catLabel: c.label, text: n[c.key] });
+        }
+      }
+    });
+  });
+
+  if (entries.length === 0) {
+    list.innerHTML = '<div class="nobel-empty">沒有符合的資料</div>';
+    return;
+  }
+
+  entries.forEach(e => {
+    const div = document.createElement('div');
+    div.className = 'nobel-entry fade-in';
+    div.innerHTML = `
+      <span class="nyear">${e.year}</span>
+      <span class="ncat n-${e.cat}">${e.catLabel}</span>
+      <span class="ndetail">${esc(e.text)}</span>
+    `;
+    div.addEventListener('click', () => { switchView('timeline'); goYear(e.year); });
+    div.style.cursor = 'pointer';
+    list.appendChild(div);
+  });
+}
+
+/* ========== SEARCH VIEW ========== */
+function buildSearchView() {
+  const main = document.getElementById('app');
+  const container = document.createElement('div');
+  container.id = 'view-search';
+  container.className = 'view';
+
+  const bar = document.createElement('div');
+  bar.className = 'search-bar';
+  bar.innerHTML = '<input type="text" id="searchInput" placeholder="搜尋科學、技術、產品、諾貝爾獎⋯">';
+  container.appendChild(bar);
+
+  const count = document.createElement('div');
+  count.className = 'search-count';
+  count.id = 'searchCount';
+  container.appendChild(count);
+
+  const list = document.createElement('div');
+  list.className = 'cat-list';
+  list.id = 'searchList';
+  container.appendChild(list);
+
+  main.appendChild(container);
+
+  let timer;
+  document.getElementById('searchInput').addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(doSearch, 250);
+  });
+}
+
+function doSearch() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const list = document.getElementById('searchList');
+  const count = document.getElementById('searchCount');
+
+  if (!q) {
+    list.innerHTML = '<div class="nobel-empty">請輸入關鍵字搜尋</div>';
+    count.textContent = '';
+    return;
+  }
+
+  const years = Object.keys(DATA).sort((a,b) => a-b);
+  const results = [];
+  const catNames = { science: '🔬 科學', tech: '⚙️ 技術', product: '📦 產品', nobel: '🏆 諾貝爾' };
+
+  years.forEach(y => {
+    const d = DATA[y];
+    if (!d) return;
+    ['science','tech','product'].forEach(cat => {
+      const arr = d[cat];
+      if (arr) arr.forEach(item => {
+        if (item && item.toLowerCase().includes(q)) {
+          results.push({ year: y, cat, catLabel: catNames[cat], text: item });
+        }
+      });
+    });
+    // Nobel search
+    if (d.nobel && d.nobel.awarded) {
+      ['physics','chemistry','physiology'].forEach(k => {
+        if (d.nobel[k] && d.nobel[k].toLowerCase().includes(q)) {
+          results.push({ year: y, cat: 'nobel', catLabel: catNames.nobel, text: d.nobel[k] });
+        }
+      });
+    }
+  });
+
+  count.textContent = `找到 ${results.length} 筆結果`;
+  list.innerHTML = '';
+  if (results.length === 0) {
+    list.innerHTML = '<div class="nobel-empty">沒有符合的結果</div>';
+    return;
+  }
+
+  results.forEach(r => {
+    const div = document.createElement('div');
+    div.className = 'cat-item';
+    div.innerHTML = `
+      <span class="cyear">${r.year}</span>
+      <span class="ctext">${esc(r.catLabel)} · ${esc(r.text)}</span>
+    `;
+    div.addEventListener('click', () => { switchView('timeline'); goYear(r.year); });
+    div.style.cursor = 'pointer';
+    list.appendChild(div);
+  });
+}
+
+init();
+</script>
+</body>
+</html>

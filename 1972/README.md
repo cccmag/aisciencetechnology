@@ -28,8 +28,8 @@
 
 ### 諾貝爾獎專題
 1. [1972年諾貝爾獎總覽](nobel.md) -- 本年度諾貝爾獎綜述
-2. [物理學獎：庫柏、施里弗](nobel_physics.md) -- 超導理論
-3. [化學獎：安芬森](nobel_chemistry.md) -- 蛋白質結構研究
+2. [物理學獎：巴丁、庫珀、施里弗](nobel_physics.md) -- 超導BCS理論
+3. [化學獎：安芬森、摩爾、斯坦](nobel_chemistry.md) -- 核糖核酸酶結構與功能
 4. [生理醫學獎：波特、埃德爾曼](nobel_physiology.md) -- 抗體結構
 
 ### 歷史穿梭

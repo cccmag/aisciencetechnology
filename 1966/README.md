@@ -29,8 +29,8 @@
 ### 諾貝爾獎專題
 1. [諾貝爾獎總覽](nobel.md) -- 1966年諾貝爾獎綜述
 2. [物理學獎：卡斯特勒](nobel_physics.md) -- 光學泵浦技術
-3. [化學獎：米爾斯](nobel_chemistry.md) -- 氧化酶模型研究
-4. [生理醫學獎：哈金斯](nobel_physiology.md) -- 癌症化學治療
+3. [化學獎：馬利肯](nobel_chemistry.md) -- 分子軌道理論
+4. [生理醫學獎：勞斯、哈金斯](nobel_physiology.md) -- 腫瘤病毒與癌症化學治療
 
 ### 歷史穿梭
 1. [從 ARPANET 到現代互聯網](history.md) -- 連接過去與未來的網絡革命

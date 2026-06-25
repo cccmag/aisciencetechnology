@@ -28,9 +28,9 @@
 
 ### 諾貝爾獎專題
 1. [1957 年諾貝爾獎總覽](./nobel.md)
-2. [物理學獎：宇稱不守恆](./nobel_physics.md)
-3. [化學獎：核酸研究](./nobel_chemistry.md)
-4. [生理學或醫學獎：抗組胺藥](./nobel_physiology.md)
+2. [物理學獎：楊振寧、李政道](./nobel_physics.md) -- 宇稱不守恆的發現
+3. [化學獎：托德](./nobel_chemistry.md) -- 核苷酸與核苷酸輔酶研究
+4. [生理學或醫學獎：博韋](./nobel_physiology.md) -- 抗組胺藥與合成箭毒
 
 ### 歷史穿梭
 1. [從史普尼克到阿波羅](./history.md) -- 連結過去與未來的太空競賽

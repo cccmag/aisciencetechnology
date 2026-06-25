@@ -28,7 +28,7 @@
 
 ### 諾貝爾獎專題
 - [諾貝爾獎總覽](nobel.md) -- 1999 年諾貝爾獎一覽
-- [物理學獎：霍夫特](nobel_physics.md) -- 粒子物理學的突破
+- [物理學獎：霍夫特、韋爾特曼](nobel_physics.md) -- 粒子物理學的突破
 - [化學獎：澤韋爾](nobel_chemistry.md) -- 超快雷射化學
 - [生理醫學獎：布洛伯爾](nobel_physiology.md) -- 蛋白質轉運機制
 

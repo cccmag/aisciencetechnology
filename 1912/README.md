@@ -28,8 +28,8 @@
 
 ### 諾貝爾獎專題
 - [諾貝爾獎總覽](nobel.md) -- 1912年諾貝爾獎綜述
-- [物理學獎：布拉格父子](nobel_physics.md) -- X 射線晶體分析的先驅
-- [化學獎：格里尼亞](nobel_chemistry.md) -- 有機化學試劑的發明
+- [物理學獎：達倫](nobel_physics.md) -- 航標燈自動調節器的發明
+- [化學獎：格里尼亞、薩巴捷](nobel_chemistry.md) -- 有機化學試劑的發明
 - [生理醫學獎：卡雷爾](nobel_physiology.md) -- 血管縫合技術的突破
 
 ### 歷史穿梭

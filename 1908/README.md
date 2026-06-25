@@ -30,7 +30,7 @@
 1. [諾貝爾獎總覽](nobel.md) -- 1908年諾貝爾獎綜述
 2. [物理學獎：李普曼](nobel_physics.md) -- 彩色攝影技術
 3. [化學獎：盧瑟福](nobel_chemistry.md) -- 元素轉變理論
-4. [生理醫學獎：梅契尼科夫](nobel_physiology.md) -- 吞噬細胞理論
+4. [生理醫學獎：梅契尼科夫、埃爾利希](nobel_physiology.md) -- 吞噬細胞理論與免疫學研究
 
 ### 歷史穿梭
 1. [歷史穿梭](history.md) -- 從T型車到現代電動汽車
