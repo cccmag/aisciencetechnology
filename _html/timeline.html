@@ -40,12 +40,15 @@
     font-weight: 600;
     margin-top: 0.5rem;
     letter-spacing: 0.1em;
+    text-decoration: none;
   }
-  .era-badge.era-pioneer { background: #5c3a1e; color: #f0d5a0; }
-  .era-badge.era-war     { background: #4a1a1a; color: #e8a0a0; }
-  .era-badge.era-golden  { background: #1e4a3a; color: #a0e0c0; }
-  .era-badge.era-digital { background: #1a2a5a; color: #a0b0f0; }
-  .era-badge.era-ai      { background: #3a1a5a; color: #d0a0f0; }
+  .era-badge:hover { filter: brightness(1.3); }
+  .era-pioneer { background: #5c3a1e; color: #f0d5a0; }
+  .era-war     { background: #4a1a1a; color: #e8a0a0; }
+  .era-golden  { background: #1e4a3a; color: #a0e0c0; }
+  .era-digital { background: #1a2a5a; color: #a0b0f0; }
+  .era-net     { background: #2a3a5a; color: #b0c0ff; }
+  .era-ai      { background: #3a1a5a; color: #d0a0f0; }
 
   .main { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
 
@@ -67,21 +70,19 @@
     flex-shrink: 0;
   }
   .nav-btn:hover { background: #2a3a5a; border-color: #4a7aaa; }
-  .year-display {
-    flex: 1;
-    text-align: center;
-  }
-  .year-number {
-    font-size: 3rem;
-    font-weight: 800;
-    letter-spacing: 0.05em;
-  }
+  .year-display { flex: 1; text-align: center; }
+  .year-number { font-size: 3rem; font-weight: 800; }
+  .year-number a { color: inherit; text-decoration: none; }
+  .year-number a:hover { color: #ffd700; }
   .year-theme {
     font-size: 0.95rem;
     color: #8899aa;
     margin-top: 0.2rem;
     font-style: italic;
   }
+  .year-theme a { color: inherit; text-decoration: none; }
+  .year-theme a:hover { color: #ffd700; }
+
   .year-slider {
     width: 100%;
     margin-bottom: 1.5rem;
@@ -95,8 +96,7 @@
   .year-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 20px; height: 20px;
     border-radius: 50%;
     background: #ffd700;
     cursor: pointer;
@@ -136,7 +136,8 @@
     padding-bottom: 0.4rem;
     border-bottom: 2px solid;
   }
-  .card h3 .icon { margin-right: 0.4rem; }
+  .card h3 a { color: inherit; text-decoration: none; }
+  .card h3 a:hover { opacity: 0.8; }
   .card-science h3 { color: #4fc3f7; border-color: #1a4a6a; }
   .card-tech    h3 { color: #81c784; border-color: #1a5a2a; }
   .card-product h3 { color: #ffb74d; border-color: #5a3a1a; }
@@ -150,15 +151,9 @@
     border-bottom: 1px solid #222;
   }
   .card ul li:last-child { border-bottom: none; }
-  .card ul li .tag {
-    display: inline-block;
-    font-size: 0.65rem;
-    padding: 0.1rem 0.4rem;
-    border-radius: 4px;
-    margin-right: 0.4rem;
-    font-weight: 600;
-    vertical-align: middle;
-  }
+  .card ul li a { color: inherit; text-decoration: none; display: block; }
+  .card ul li a:hover { color: #ffd700; }
+
   .tag-nobel-awarded { background: #2a5a2a; color: #a0e0a0; }
   .tag-nobel-none   { background: #5a2a2a; color: #e0a0a0; }
 
@@ -170,6 +165,8 @@
     display: inline-block;
     min-width: 3.5rem;
   }
+  .card-nobel .nobel-detail a { color: inherit; text-decoration: none; }
+  .card-nobel .nobel-detail a:hover { color: #ffd700; }
   .card-nobel .nobel-detail { font-size: 0.85rem; }
   .card-nobel .nobel-note {
     margin-top: 0.5rem;
@@ -177,6 +174,14 @@
     color: #778899;
     font-style: italic;
   }
+  .card-footer-link {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    color: #667;
+    text-decoration: none;
+  }
+  .card-footer-link:hover { color: #ffd700; }
 
   .timeline-mini {
     display: flex;
@@ -222,7 +227,7 @@
 <div class="header">
   <h1>科學技術年鑑</h1>
   <p>互動時間線 — 從 1901 到 2026 的科學、技術與產品演進</p>
-  <span class="era-badge era-pioneer" id="eraBadge">探索時代</span>
+  <a class="era-badge era-pioneer" id="eraBadge" href="" target="_blank">探索時代</a>
 </div>
 
 <div class="main">
@@ -243,8 +248,8 @@
   <div class="nav-area">
     <button class="nav-btn" id="prevBtn">◀</button>
     <div class="year-display">
-      <div class="year-number" id="yearNumber">1901</div>
-      <div class="year-theme" id="yearTheme">邁入二十世紀的第一年</div>
+      <div class="year-number" id="yearNumber"><a href="" target="_blank">1901</a></div>
+      <div class="year-theme" id="yearTheme"><a href="" target="_blank">邁入二十世紀的第一年</a></div>
     </div>
     <button class="nav-btn" id="nextBtn">▶</button>
   </div>
@@ -254,306 +259,284 @@
 </div>
 
 <script>
+const GITHUB_BASE = 'https://github.com/cccmag/aisciencetechnology/blob/main';
+let currentYear = 1901;
+
+function articleUrl(year, filename) {
+  return GITHUB_BASE + '/' + year + '/' + filename;
+}
+function readmeUrl(year) {
+  return articleUrl(year, 'README.md');
+}
+function prefaceUrl(year) {
+  return articleUrl(year, 'preface.md');
+}
+function historyUrl(year) {
+  return articleUrl(year, 'history.md');
+}
+
 const DATA = {
   "1901": {
-    theme: "邁入二十世紀的第一年",
-    era: "pioneer",
+    theme: "邁入二十世紀的第一年", era: "pioneer",
     science: ["湯姆森發現電子：揭開原子結構的面紗","普朗克量子論：能量不連續的革命","貝克勒爾發現放射性：原子核知識的起點","倫琴發現 X 射線：醫學革命的開端","愛迪生發明留聲機：聲音的永恆保存"],
     tech: ["馬可尼跨大西洋通信：世界距離的終結","萊特兄弟的滑翔機實驗：飛行時代的前奏","汽油動力汽車的實用化：個人交通的興起","電燈的普及與電網建設：城市的光明革命","軍事技術的現代化：海軍競賽的開始"],
     product: ["馬可尼收音機：即時跨越海洋","福特汽車：夢想座駕的起點","愛迪生電燈：點亮文明之光","愛迪生留聲機：永恆的聲音記憶","X光機：透視人體的魔法眼睛"],
     nobel: { awarded: true, physics: "威廉·倫琴 — X射線發現", chemistry: "范特霍夫 — 化學動力學", physiology: "埃米爾·馮·貝林 — 白喉抗毒素", note: "第一屆諾貝爾獎正式頒發" }
   },
   "1902": {
-    theme: "理論與應用並重的一年",
-    era: "pioneer",
+    theme: "理論與應用並重的一年", era: "pioneer",
     science: ["洛倫茲變換：相對論的理論先驅","塞曼效應：光譜線分裂的神秘現象","催化理論：化學反應的加速器","齊柏林飛艇：空中旅行的新紀元","氬原子量之謎：同位素發現的前奏"],
     tech: ["福特 A 型車：汽車大眾化的先驅","電話交換機自動化：通信網絡升級","電氣鐵路：城市交通的革命","冷藏火車：長途食品運輸突破","水下隧道：工程技術的奇蹟"],
     product: ["福特 A 型轎車：可靠耐用的新選擇","電話交換設備：連接千萬人家","電氣軌道車：便捷的城市交通","冷藏運輸車：長途食品保鮮","齊柏林飛艇：天空之舟"],
     nobel: { awarded: true, physics: "洛倫茲與塞曼 — 光輻射研究", chemistry: "埃米爾·費歇爾 — 嘌呤研究", physiology: "羅納德·羅斯 — 瘧原蟲傳播", note: "第二屆諾貝爾獎" }
   },
   "1903": {
-    theme: "人類航空時代的開創",
-    era: "pioneer",
+    theme: "人類航空時代的開創", era: "pioneer",
     science: ["萊特兄弟首次動力飛行：12月17日","貝克勒爾與放射性：原子核物理學的開端","瑞利與惰性氣體：空氣中的秘密","阿瑞尼烏斯電離理論：溶液導電的秘密","芬森光療：利用光線治療疾病"],
     tech: ["萊特兄弟的飛行器：從滑翔到動力飛行","早期無線電技術：跨越大洋的夢想","內燃機的改進：汽車動力的革命","電照明技術普及：城市夜晚的光明","醫療儀器進步：讓醫生看得更清楚"],
     product: ["萊特飛行者號：人類首款動力飛機","改進型收音機：讓更多人聽到遠方","新型汽車：讓出行更便捷","電燈泡：照亮更多家庭","光療設備：醫療新利器"],
     nobel: { awarded: true, physics: "貝克勒爾 — 自發放射性", chemistry: "阿瑞尼烏斯 — 電離理論", physiology: "芬森 — 光療方法", note: "第三屆諾貝爾獎" }
   },
   "1904": {
-    theme: "半導體時代的曙光",
-    era: "pioneer",
-    science: ["蕭克利發明二極體：半導體時代開端","瑞利與惰性氣體研究","巴甫洛夫條件反射：行為的秘密","拉姆齊惰性氣體：週期表最後拼圖","瑞利光譜分析：物質組成的秘密"],
-    tech: ["二極體技術：電子器件的革命","光譜分析技術：化學家的利器","改進的內燃機：汽車更強的心臟","電話網絡擴展：連接更多人","電網建設：照亮更多地方"],
-    product: ["二極體：電子產品的心臟","新型電話機：讓溝通更便捷","更好的電燈：照亮更多家庭","新型汽車：更可靠的交通工具","光譜分析儀：科學家的工具"],
+    theme: "半導體時代的曙光", era: "pioneer",
+    science: ["真空二極體：弗萊明的革命性發明","瑞利與惰性氣體研究","巴甫洛夫條件反射：行為的秘密","拉姆齊惰性氣體：週期表最後拼圖","瑞利光譜分析：物質組成的秘密"],
+    tech: ["真空二極體技術：電子器件的革命","光譜分析技術：化學家的利器","改進的內燃機：汽車更強的心臟","電話網絡擴展：連接更多人","電網建設：照亮更多地方"],
+    product: ["真空二極體：電子產品的心臟","新型電話機：讓溝通更便捷","更好的電燈：照亮更多家庭","新型汽車：更可靠的交通工具","光譜分析儀：科學家的工具"],
     nobel: { awarded: true, physics: "瑞利男爵 — 聲學研究", chemistry: "拉姆齊 — 惰性氣體", physiology: "巴甫洛夫 — 條件反射", note: "第四屆諾貝爾獎" }
   },
   "1905": {
-    theme: "愛因斯坦奇蹟年",
-    era: "pioneer",
+    theme: "愛因斯坦奇蹟年", era: "pioneer",
     science: ["狹義相對論：時空觀念的革命 (愛因斯坦)","光電效應：量子理論突破口","布朗運動：分子存在的直接證據","原子物理學新突破：原子內部結構探索","化學反應速率理論的建立"],
     tech: ["無線電通信商用化：遠距離通信新時代","電燈照明普及：城市夜景變革","早期飛機研發：萊特兄弟持續實驗","早期汽車量產化：福特T型車前奏","早期X光醫學應用：透視人體"],
     product: ["早期收音機：走進家庭的音樂","愛迪生電燈系統：城市光明支柱","早期電話交換機：通信網絡基礎","早期膠片攝影機：動態影像記錄","早期X光設備：醫學診斷革新"],
     nobel: { awarded: true, physics: "菲利普·勒納 — 陰極射線", chemistry: "拜耳 — 合成有機染料", physiology: "科赫 — 結核桿菌", note: "愛因斯坦奇蹟年論文未獲該年諾貝爾獎" }
   },
   "1910": {
-    theme: "福特 T 型車與 DNA 研究的時代",
-    era: "pioneer",
+    theme: "福特 T 型車與 DNA 研究的時代", era: "pioneer",
     science: ["范德華狀態方程：分子間作用力","瓦拉赫：脂肪族化合物結構","科塞爾：細胞化學先驅","DNA遺傳理論早期研究","摩爾根果蠅實驗：遺傳學突破"],
     tech: ["福特流水線生產：工業革命巔峰","電照明技術普及：城市夜景誕生","電話交換機改進：自動化萌芽","石油開採技術：內燃機能源保障","化學肥料：農業革命 (哈柏法)"],
     product: ["福特 T 型車：改變世界 (百萬輛)","電燈泡：點亮人類文明","電話機：跨越距離的對話","留聲機與唱片：聲音記錄","自行車普及：個人交通興起"],
     nobel: { awarded: true, physics: "范德華 — 氣液狀態方程", chemistry: "瓦拉赫 — 脂肪族化合物", physiology: "科塞爾 — 細胞化學", note: "" }
   },
   "1915": {
-    theme: "戰爭與科學的交織 (第一次世界大戰)",
-    era: "war",
+    theme: "戰爭與科學的交織 (第一次世界大戰)", era: "war",
     science: ["廣義相對論誕生：愛因斯坦時空革命","原子結構探索：盧瑟福模型深化","量子理論進展：新舊理論交鋒","戰爭中的科學：軍事需求推動科研","愛因斯坦1915年的物理學突破"],
     tech: ["化學武器出現：毒氣戰爭開端","戰鬥機技術革新：空戰武器進化","潛艇技術發展：無限制潛艇戰","軍事通訊技術：戰場通訊革命","醫療技術進步：戰地救護改進"],
     product: ["T型車普及：福特汽車時代來臨","收音機興起：廣播時代萌芽","膠捲與電影：影像技術進步","打字機普及：辦公自動化先驅","輕便相機：記錄戰爭與生活"],
     nobel: { awarded: false, note: "諾貝爾獎因第一次世界大戰全面停發" }
   },
   "1920": {
-    theme: "戰後科技的復蘇與突破",
-    era: "pioneer",
+    theme: "戰後科技的復蘇與突破", era: "pioneer",
     science: ["廣義相對論進一步驗證：水星近日點","晶體結構研究深入：X射線晶體學","熱化學發展：能斯特研究貢獻","合金材料發現：紀堯姆特殊鋼合金","光譜學進一步發展：精確測量"],
     tech: ["精密測量技術進步：溫度與長度","光學儀器改進：鏡片與鍍膜技術","高溫測量技術：熱電偶與高溫計","材料測試技術：合金性能測試方法","標準化測量推進：國際標準建立"],
     product: ["精密測量儀器商品化：溫度計","特殊合金應用：因瓦合金與艾林瓦合金","光學儀器普及：測量光學儀器","科學儀器工業化：實驗室設備","時鐘與精密計時：精確時間測量"],
     nobel: { awarded: true, physics: "夏爾·紀堯姆 — 因瓦合金", chemistry: "瓦爾特·能斯特 — 熱化學", physiology: "本年未頒發 (空缺)", note: "一戰後復蘇期；生理學獎空缺" }
   },
   "1925": {
-    theme: "矩陣力學開創新紀元",
-    era: "pioneer",
+    theme: "矩陣力學開創新紀元", era: "pioneer",
     science: ["海森堡矩陣力學誕生","愛因斯坦相對論與光電效應","電子自旋發現：原子光譜之謎","泡利不相容原理：電子排布規則","費米-狄拉克統計：粒子統計規律"],
     tech: ["光譜學技術進步：原子結構指紋","雲室改進與應用：窺見微小粒子","高溫測量技術：極端溫度測定","光電管應用：自動化控制開端","X射線晶體學：解碼微觀世界"],
     product: ["汽車工業升級：從T型車到A型車","電話自動交換機：告別人工交換","電冰箱普及：食品保鮮革命","有聲電影興起：視聽新時代","合成染料工業化：化學工業進步"],
     nobel: { awarded: true, physics: "夫蘭克與赫茲 — 原子與電子碰撞", chemistry: "席梅爾 — 血液蛋白質", physiology: "艾因特文 — 甲狀旁腺", note: "量子力學革命之年" }
   },
   "1930": {
-    theme: "大蕭條中的科學突破",
-    era: "pioneer",
+    theme: "大蕭條中的科學突破", era: "pioneer",
     science: ["拉曼效應：光的散射理論","哈勃宇宙學：膨脹宇宙","量子力學應用：理論實際應用","天體物理學：恆星結構研究","晶體結構研究：X射線晶體學進步"],
     tech: ["汽車工業發展：大蕭條中技術進步","航空技術：商業航空掙扎與發展","廣播技術：收音機成為家庭必備","電視實驗：電視技術接近實用","化工技術：合成材料技術"],
     product: ["福特A型車：經濟實惠的汽車","收音機：廣播娛樂中心","電冰箱：食品保鮮普及","洗衣機：家務自動化發展","電話機：通信工具普及"],
-    nobel: { awarded: true, physics: "拉曼 — 拉曼效應 (首位亞洲得主)", chemistry: "漢斯·費歇爾 — 葉綠素結構", physiology: "蘭德斯坦納 — 血型系統", note: "大蕭條最嚴重的時期" }
+    nobel: { awarded: true, physics: "拉曼 — 拉曼效效 (首位亞洲得主)", chemistry: "漢斯·費歇爾 — 葉綠素結構", physiology: "蘭德斯坦納 — 血型系統", note: "大蕭條最嚴重的時期" }
   },
   "1940": {
-    theme: "二戰期間的軍備競賽",
-    era: "war",
+    theme: "二戰期間的軍備競賽", era: "war",
     science: ["迴旋加速器能量提升：粒子物理進展","宇宙射線研究：新粒子發現","核磁共振理論發展：核自旋研究","放射性化學進展：同位素製備","固體物理學理論：半導體理論"],
     tech: ["核反應堆理論研究：受控核裂變","同位素分離技術：氣體擴散法","加速器技術改進：粒子源技術","探測器靈敏度提高：核探測技術","軍用雷達技術：微波技術發展"],
     product: ["軍用無損檢測設備","放射性醫療設備：放射治療推廣","光學儀器軍用化：瞄準鏡","真空電子設備：無線電與雷達","實驗室儀器商業化"],
     nobel: { awarded: false, note: "第二次世界大戰導致獎項全面停發" }
   },
   "1945": {
-    theme: "原子彈誕生與二戰結束",
-    era: "war",
+    theme: "原子彈誕生與二戰結束", era: "war",
     science: ["原子彈研製：曼哈頓計畫","核物理學的軍事應用","雷達技術的成熟","火箭技術的進步","醫學與外科的戰時突破"],
     tech: ["核武器技術：原子彈問世","雷達技術實用化","噴射發動機：噴射戰鬥機","彈道導彈技術 (V-2火箭)","密碼學與計算機 (圖靈)"],
     product: ["核子設備：核能時代序幕","雷達設備：從軍事到民用","盤尼西林量產：抗生素革命","噴射戰鬥機：航空新時代","電子計算機：ENIAC問世"],
     nobel: { awarded: true, physics: "泡利 — 不相容原理", chemistry: "丘伊勒 — 青黴素", physiology: "弗萊明、柴恩、弗洛里 — 青黴素", note: "二戰結束；聯合國成立" }
   },
   "1950": {
-    theme: "冷戰時代的科技競爭",
-    era: "golden",
+    theme: "冷戰時代的科技競爭", era: "golden",
     science: ["電晶體商業化時代：半導體產業起飛","強相互作用理論：核力量子場論","雲霧室技術進步：粒子物理探索","半導體物理學成熟","計算機發展：電晶體電腦萌芽"],
     tech: ["電晶體製造工藝：商業化生產","射電天文學新發現","核反應堆技術：和平利用核能","航空技術：噴射時代來臨","半導體摻雜技術：pn結工藝"],
     product: ["首批商用電晶體","磁性存儲產品：計算機存儲","石化產品：塑膠與合成纖維","農業機械：機械化農業","噴射發動機：航空動力"],
     nobel: { awarded: true, physics: "鮑林 — 化學鍵本質", chemistry: "狄拉克 — 化學反應理論", physiology: "肯德魯 — 甲狀腺激素", note: "冷戰形成；韓戰爆發" }
   },
   "1953": {
-    theme: "DNA 雙螺旋結構的發現",
-    era: "golden",
+    theme: "DNA 雙螺旋結構的發現", era: "golden",
     science: ["華生與克里克：DNA雙螺旋結構","DNA結構解析：生命遺傳的密碼","遺傳學的革命：分子生物學誕生","X射線繞射研究 (富蘭克林)","蛋白質結構研究的進展"],
     tech: ["X射線晶體學技術：解開生物分子","電子顯微鏡的改進","超速離心技術","電泳與色譜分離技術","同位素標記技術"],
     product: ["早期DNA研究設備","改良型X射線繞射儀","電子顯微鏡商用化","實驗室離心機","色譜分析儀"],
     nobel: { awarded: true, physics: "澤爾尼克 — 相差顯微鏡", chemistry: "赫爾曼·施陶丁格 — 高分子化學", physiology: "李普曼 — 輔酶A", note: "華生與克里克發表DNA模型（1962年獲獎）" }
   },
   "1957": {
-    theme: "人造衛星與太空時代",
-    era: "golden",
+    theme: "人造衛星與太空時代", era: "golden",
     science: ["史普尼克1號：人類首顆人造衛星","太空物理學的開端","電離層研究","宇宙射線與磁層","放射性同位素應用"],
     tech: ["火箭技術：R-7火箭","衛星技術：史普尼克計畫","衛星通信概念","衛星遙測技術","太空環境測試"],
     product: ["史普尼克衛星：改變世界","晶體管收音機：消費電子","早期計算機：IBM 704","電視機普及：黑白電視","合成纖維產品"],
     nobel: { awarded: true, physics: "楊振寧、李政道 — 宇稱不守恆", chemistry: "托德 — 核苷酸研究", physiology: "博韋 — 抗組織胺", note: "國際地球物理年；太空競賽開始" }
   },
   "1960": {
-    theme: "雷射元年",
-    era: "golden",
+    theme: "雷射元年", era: "golden",
     science: ["雷射發明：光放大與受激輻射","第一台雷射器：梅曼紅寶石雷射","等離子體物理學：人工太陽的秘密","光生物學：光合作用深入","地球科學：大陸漂移假說驗證"],
     tech: ["紅寶石雷射器：第一台實用雷射","光纖通信突破：低損耗光纖","積體電路量產：半導體工業形成","太空通信：人造衛星通信應用","半導體檢測技術"],
     product: ["雷射器商業化：從實驗室到市場","衛星電視：電視信號全球化","電子計算機普及：企業資訊化","心律調節器實用化","自動翻譯機：語言處理萌芽"],
     nobel: { awarded: true, physics: "格拉澤 — 雷射與微波激射", chemistry: "利比 — 放射性碳定年法", physiology: "梅達沃 — 免疫耐受性", note: "雷射發明的里程碑之年" }
   },
   "1969": {
-    theme: "阿波羅11號登月",
-    era: "golden",
+    theme: "阿波羅11號登月", era: "golden",
     science: ["阿波羅11號：人類首次登月","月球地質學：月球岩石分析","地球觀測：從太空看地球","天文物理學：脈衝星發現","海洋科學：深海探索"],
     tech: ["土星五號火箭：登月工程","月球登陸技術：登月艙","太空服與生命支持系統","衛星通信：全球通信網絡","電腦輔助設計 (CAD) 萌芽"],
     product: ["阿波羅太空船：人類登月","積體電路產品：太空技術民用","掌上型計算機：日本公司量產","彩色電視機：普及化","微波爐：家庭便利烹飪"],
     nobel: { awarded: true, physics: "漢斯·貝特 — 核反應理論", chemistry: "巴頓 — 有機化學構象", physiology: "德爾布呂克 — 噬菌體", note: "人類登月；ARPANET誕生" }
   },
   "1970": {
-    theme: "微處理器時代的來臨",
-    era: "digital",
+    theme: "微處理器時代的來臨", era: "digital",
     science: ["微處理器概念：計算機新時代","ARPANET擴展：網絡發展","等離子體物理學：核融合研究","分子生物學：基因工程興起","天體物理學：脈衝星研究"],
     tech: ["微處理器技術：半導體計算新時代","ARPANET技術：網絡協議","半導體工藝：積體電路進步","通信技術：數據通信","電腦技術：小型計算機"],
     product: ["微處理器產品：半導體晶片","計算器：電子計算器普及","彩色電視：彩色視界","電腦產品：小型電腦","消費電子：半導體設備"],
     nobel: { awarded: true, physics: "阿爾德、內爾斯 — 量子電子學", chemistry: "萊洛伊爾 — 糖生物學", physiology: "阿克塞爾羅德 — 神經傳遞素", note: "微處理器革命的前夜" }
   },
   "1975": {
-    theme: "個人電腦的黎明",
-    era: "digital",
+    theme: "個人電腦的黎明", era: "digital",
     science: ["DNA序列測定方法：桑格法","遺傳工程技術突破","固體物理學：半導體理論深化","天文學：紅外天文學","神經科學：神經傳導研究"],
     tech: ["微處理器進步：Intel 8080/6800","個人電腦套件：Altair 8800","BASIC語言：微軟成立","磁碟存儲：軟碟片","區域網路概念：乙太網路前身"],
     product: ["Altair 8800：首款個人電腦套件","微處理器：Intel 8080","軟碟機：資料攜帶","數位手錶：電子錶時代","電子計算器：四則運算"],
     nobel: { awarded: true, physics: "布洛赫、珀塞爾 — 核磁共振", chemistry: "康福思 — 酵素立體化學", physiology: "巴爾的摩 — 反轉錄酶", note: "比爾蓋茲與保羅艾倫創立微軟" }
   },
   "1980": {
-    theme: "個人電腦革命的爆發",
-    era: "digital",
+    theme: "個人電腦革命的爆發", era: "digital",
     science: ["電腦圖學突破：3D渲染技術","遺傳工程：重組DNA藥物批准","MRI實用化：醫學影像新紀元","VLSI：超大規模積體電路","ARPANET成長：網路擴張"],
     tech: ["IBM PC發布：個人電腦標準","遺傳工程藥物：生物製藥起點","MRI設備：無創醫療影像","乙太網路：區域網路技術","微處理器進化：16位元時代"],
     product: ["IBM PC：個人電腦時代來臨","便攜式電腦：Osborne 1","生化藥物：基因工程藥物","MRI醫療設備：診斷新工具","文字處理器：WordStar"],
     nobel: { awarded: true, physics: "克羅寧、菲奇 — CP破壞", chemistry: "伯格 — 重組DNA技術", physiology: "斯内爾 — 免疫遺傳學", note: "個人電腦革命爆發之年" }
   },
   "1985": {
-    theme: "網路時代的序幕",
-    era: "digital",
+    theme: "網路時代的序幕", era: "digital",
     science: ["DNA指紋技術：遺傳鑑定","高溫超導體研究","HIV病毒鑑定：愛滋病研究","臭氧層破洞發現","小行星探測先驅"],
     tech: ["Windows 1.0發布：圖形介面","行動電話技術：第一台手機","CD-ROM：光碟儲存","數據機技術：撥接上網","C++語言：物件導向程式"],
     product: ["Windows 1.0：微軟圖形系統","行動電話：Motorola DynaTAC","CD播放器：光碟音樂","Nintendo Entertainment System","VHS錄影機：家庭錄影"],
     nobel: { awarded: true, physics: "魯斯卡 — 電子顯微鏡", chemistry: "豪普特曼 — 晶體結構", physiology: "布朗、戈爾茨坦 — 膽固醇代謝", note: "微軟發布Windows 1.0" }
   },
   "1989": {
-    theme: "全球資訊網的誕生",
-    era: "digital",
+    theme: "全球資訊網的誕生", era: "digital",
     science: ["WWW發明：Tim Berners-Lee","高溫超導：臨界溫度提升","人類基因組計畫規劃","全球暖化科學共識形成","超新星1987A研究"],
     tech: ["全球資訊網：HTTP/HTML協定","Game Boy：掌上遊戲機","GPS衛星：導航系統","數位手機：GSM標準","MP3標準：音訊壓縮"],
     product: ["Game Boy：隨身遊戲革命","GPS導航設備","數位手機：GSM手機","早期瀏覽器：WorldWideWeb","衛星電視接收器"],
     nobel: { awarded: true, physics: "拉姆齊 — 原子鐘", chemistry: "阿爾伯 — 核酶", physiology: "畢曉普 — 癌基因", note: "WWW發明，改變人類資訊傳播" }
   },
   "1990": {
-    theme: "哈伯望遠鏡升空與互聯網萌芽",
-    era: "digital",
+    theme: "哈伯望遠鏡升空與互聯網萌芽", era: "digital",
     science: ["哈伯太空望遠鏡升空","人類基因組計畫啟動","高溫超導持續進展","器官移植突破","電腦化學興起"],
     tech: ["哈伯望遠鏡的發射","互聯網商業化","網頁瀏覽器先驅","數據壓縮標準","半導體記憶體進步"],
     product: ["網路遊戲萌芽","電子商務興起","掌上電腦興起","多媒體PC普及","數位相機商業化"],
     nobel: { awarded: true, physics: "弗里德曼、肯德爾、泰勒 — 深度非彈性散射", chemistry: "科里 — 有機合成理論", physiology: "穆雷、托馬斯 — 器官移植", note: "萬維網 (WWW) 發明之年" }
   },
   "1993": {
-    theme: "網際網路普及的起點",
-    era: "digital",
+    theme: "網際網路普及的起點", era: "digital",
     science: ["Mosaic瀏覽器：圖形化網路","基因治療首次臨床試驗","粒子物理學：頂夸克證據","生物多樣性研究","氣候模型改進"],
     tech: ["Mosaic瀏覽器：網路圖形化","Intel Pentium處理器","數據機56K：撥接上網","Linux核心：開放原始碼","數位電影：侏羅紀公園特效"],
     product: ["Mosaic瀏覽器：輕鬆上網","Pentium處理器：個人電腦升級","數據機：網路連線設備","消費級數位相機","手機縮小化：Nokia 101"],
     nobel: { awarded: true, physics: "黑爾斯、泰勒 — 雙脈衝星", chemistry: "穆利斯 — PCR技術", physiology: "羅伯茨、夏普 — 分裂基因", note: "圖形化瀏覽器引爆網路熱潮" }
   },
   "1997": {
-    theme: "複製羊多莉與數位革命",
-    era: "digital",
+    theme: "複製羊多莉與數位革命", era: "digital",
     science: ["複製羊多莉：哺乳動物複製","火星探路者：登陸火星","人體染色體定序","溫室效應：京都議定書","天文學：哈伯深空場"],
     tech: ["DVD技術：高容量光碟","手機小型化：掀蓋手機","WiFi IEEE 802.11標準","MP3播放器：Rioport.net","電子商務：亞馬遜IPO"],
     product: ["DVD播放器：高畫質影音","掀蓋手機：時尚通信","MP3播放器：數位音樂","Windows 95/98：PC系統","Toyota Prius：混合動力車"],
     nobel: { awarded: true, physics: "朱棣文 — 雷射冷卻", chemistry: "博耶 — ATP合成酶", physiology: "普魯西內爾 — 普里昂蛋白", note: "複製羊多莉誕生；DVD上市" }
   },
   "1999": {
-    theme: "Google 與新千禧年",
-    era: "digital",
+    theme: "Google 與新千禧年", era: "digital",
     science: ["人類基因組接近完成","火星極地著陸器","宇宙加速膨脹：暗能量","幹細胞研究突破","材料科學：奈米碳管"],
     tech: ["Google搜尋引擎：PageRank","寬頻網路：ADSL普及","藍芽通信技術","WiFi商用化：802.11b","Napster：P2P檔案分享"],
     product: ["Google搜尋：改變網路","ADSL數據機：高速上網","藍芽耳機：無線通信","iMac：蘋果重生","Sony Walkman：隨身聽"],
     nobel: { awarded: true, physics: "霍夫特、韋爾特曼 — 電弱理論", chemistry: "澤韋爾 — 飛秒化學", physiology: "布洛伯爾 — 蛋白質定位信號", note: "Google成立，改變資訊檢索" }
   },
   "2000": {
-    theme: "千禧年科技總覽",
-    era: "net",
+    theme: "千禧年科技總覽", era: "net",
     science: ["人類基因組草圖完成","星際行星發現","腦科學研究突破","光子晶體研究","複製技術新進展"],
     tech: ["寬頻網路普及：速度革命","WiFi 802.11b市場爆發","Linux企業化：開源主流","3G行動通訊時代","雲端運算興起"],
     product: ["PlayStation 2：遊戲機繁榮","Windows 2000 發布","數位相機300萬像素","MD播放器普及","掌上電腦商務應用"],
     nobel: { awarded: true, physics: "阿爾費羅夫 — 半導體異質結構", chemistry: "黑格、馬克迪米德、白川英樹 — 導電聚合物", physiology: "卡爾森、格林加德、坎德爾 — 神經信號傳導", note: "人類基因組計畫里程碑" }
   },
   "2001": {
-    theme: "911 事件與網路泡沫",
-    era: "net",
+    theme: "911 事件與網路泡沫", era: "net",
     science: ["人類基因組序列草圖發表","RNA干擾發現","奈米科技倡議","火星奧德賽號","幹細胞研究政策爭議"],
     tech: ["911後的安檢技術","Wikipedia：協作百科","Mac OS X：Unix核心","Xbox：微軟進軍遊戲機","iPod：數位音樂革命"],
     product: ["iPod：上千首音樂口袋裝","Xbox：家用遊戲新勢力","Wikipedia：自由知識","Mac OS X：蘋果重生","LCD螢幕普及"],
     nobel: { awarded: true, physics: "康奈爾、維曼、克特勒 — 玻色-愛因斯坦凝聚", chemistry: "諾爾斯、野依良治、夏普萊斯 — 不對稱催化", physiology: "哈特韋爾 — 細胞週期", note: "911恐怖攻擊；網路泡沫破滅" }
   },
   "2004": {
-    theme: "Facebook 與社交網路時代",
-    era: "net",
+    theme: "Facebook 與社交網路時代", era: "net",
     science: ["Facebook創立：社交網路的開始","火星探測：機遇號與精神號","人類基因組完成：2.8億美元","石墨烯剝離成功","卡西尼-惠更斯抵達土星"],
     tech: ["Facebook社交平台","Gmail：1GB免費信箱","Mozilla Firefox 1.0","數位單眼相機普及","Wii：體感遊戲革命"],
     product: ["Facebook：改變社交","Gmail：網路信箱新標準","Firefox瀏覽器：開源挑戰","數位單眼相機","Wii遊戲機：體感控制"],
     nobel: { awarded: true, physics: "格羅斯、波利策、韋爾切克 — 漸近自由", chemistry: "切哈諾沃、赫什科、羅斯 — 泛素降解", physiology: "阿克塞爾、巴克 — 嗅覺受體", note: "Facebook創立；火星雙漫遊車登陸" }
   },
   "2007": {
-    theme: "iPhone 重新定義手機",
-    era: "net",
+    theme: "iPhone 重新定義手機", era: "net",
     science: ["iPhone發布：多點觸控革命","人類基因組個人化測序","系外行星：類地行星發現","氣候變遷：IPCC報告","幹細胞研究：iPS細胞"],
     tech: ["iPhone技術：多點觸控","Kindle：電子書閱讀器","Android平台：開源手機系統","雲端服務：AWS正式推出","Twitter：微網誌"],
     product: ["iPhone：智慧型手機新定義","Kindle：電子書閱讀","Android系統：手機開源平台","MacBook Air：超輕薄筆電","Nintendo Wii：體感遊戲"],
     nobel: { awarded: true, physics: "費爾、格林貝格 — 巨磁阻效應", chemistry: "埃特爾 — 表面化學", physiology: "卡佩奇、埃文斯、史密西斯 — 基因打靶", note: "iPhone 1月9日發布；Amazon推出Kindle" }
   },
   "2010": {
-    theme: "iPad 與行動運算時代",
-    era: "net",
+    theme: "iPad 與行動運算時代", era: "net",
     science: ["LHC質子碰撞7 TeV","基因組測序接近1萬美元","宇宙學精密測量","氣候變化持續關注","量子計算進展"],
     tech: ["iPad發布：平板電腦時代","比特幣價值起飛：突破1美元","雲端運算持續普及：AWS領先","Android超越iPhone","社交媒體：FB用戶突破5億"],
     product: ["iPad：重新定義平板","Android手機爆發","超極本概念興起","LCD TV降價普及","體感遊戲：Kinect"],
     nobel: { awarded: true, physics: "海姆、諾沃肖洛夫 — 石墨烯", chemistry: "赫克、根岸英一、鈴木章 — 鈀催化耦合", physiology: "愛德華茲 — 體外受精", note: "中國GDP超越日本；iPad發布" }
   },
   "2015": {
-    theme: "AI 與基因編輯的崛起",
-    era: "net",
+    theme: "AI 與基因編輯的崛起", era: "net",
     science: ["CRISPR-Cas9基因編輯革命","重力波探測：LIGO","希格斯玻色子確認","人類基因組2.0","植物基因組編輯"],
     tech: ["CRISPR技術：精準基因編輯","深度學習突破：AlphaGo","4G LTE普及","電動車：Tesla Model S","無人機消費級化"],
     product: ["CRISPR基因編輯工具","AlphaGo：AI打敗棋王","Tesla Model S：電動車典範","iPhone 6：大螢世代","智慧手錶：Apple Watch"],
     nobel: { awarded: true, physics: "梶田隆章、麥克唐納 — 中微子振盪", chemistry: "林達爾、莫德里奇、桑卡爾 — DNA修復", physiology: "坎貝爾、大村智、屠呦呦 — 寄生蟲治療", note: "屠呦呦獲諾貝爾生理醫學獎；巴黎氣候協定" }
   },
   "2016": {
-    theme: "AlphaGo 與人工智慧元年",
-    era: "net",
+    theme: "AlphaGo 與人工智慧元年", era: "net",
     science: ["LIGO引力波直接探測","AlphaGo戰勝李世石","系外行星：Proxima b","基因編輯進入人體試驗","腦科學：人腦連接體"],
     tech: ["引力波探測技術","AlphaGo：深度強化學習","VR頭盔：HTC Vive/PSVR","自動駕駛：Tesla Autopilot","區塊鏈：以太坊智慧合約"],
     product: ["LIGO：引力波探測器","AlphaGo：AI里程碑","VR頭盔：虛擬實境","Tesla Autopilot：自動駕駛","Pokémon GO：AR遊戲"],
     nobel: { awarded: true, physics: "索恩、韋斯、巴里什 — 引力波", chemistry: "斯托達特、索瓦奇、費林加 — 分子機器", physiology: "大隅良典 — 自噬機制", note: "AlphaGo打敗李世石；引力波直接探測" }
   },
   "2019": {
-    theme: "5G 與黑洞照片",
-    era: "net",
+    theme: "5G 與黑洞照片", era: "net",
     science: ["事件視界望遠鏡：首張黑洞照片","人類基因組完整定序","CRISPR人體試驗","火星地震探測 (洞察號)","氣候科學：全球升溫1.5°C"],
     tech: ["5G商用化：超高速通信","AI晶片：TPU與NPU","摺疊螢幕手機","量子霸權：Google Sycamore","電動車普及：Tesla Model 3量產"],
     product: ["5G手機與基站","摺疊螢幕手機：Galaxy Fold","AirPods Pro：真無線耳機","Tesla Cybertruck：電動貨卡","串流平台：Disney+登場"],
     nobel: { awarded: true, physics: "皮布爾斯、麥耶、奎洛茲 — 宇宙學與系外行星", chemistry: "古迪納夫、惠廷厄姆、吉野彰 — 鋰離子電池", physiology: "塞門扎、拉特克利夫、凱林 — 氧感知", note: "首張黑洞照片；5G元年" }
   },
   "2020": {
-    theme: "新冠疫情與百年大變局",
-    era: "ai",
+    theme: "新冠疫情與百年大變局", era: "ai",
     science: ["新冠病毒COVID-19","mRNA疫苗嶄新技術","血漿療法","瑞德西韋：首個抗病毒藥物","冷鏈技術與疫苗配送"],
     tech: ["mRNA疫苗技術詳解","遠程辦公技術：疫情居家","遠距教學：線上教育","核酸檢測：PCR與快篩","AI輔助抗疫：疫情防控"],
     product: ["Zoom：視訊會議","mRNA疫苗：輝瑞與莫德納","線上教育平台","智慧醫療設備","消毒機器人"],
     nobel: { awarded: true, physics: "彭羅斯、根策爾、蓋茲 — 黑洞", chemistry: "夏朋朋、杜德納 — CRISPR", physiology: "阿爾特、霍頓、賴斯 — 丙型肝炎", note: "COVID-19全球大流行" }
   },
   "2022": {
-    theme: "AI 生成內容爆發",
-    era: "ai",
+    theme: "AI 生成內容爆發", era: "ai",
     science: ["詹姆斯韋伯太空望遠鏡升空","AI生成：Stable Diffusion/ChatGPT","核融合：NET增益突破","猴痘疫情","暗能量望遠鏡DESI"],
     tech: ["Webb望遠鏡：紅外天文觀測","ChatGPT：對話式AI","Stable Diffusion：文生圖","核融合點火：NIF突破","量子計算：IBM 433量子位元"],
     product: ["ChatGPT：AI對話革命","Stable Diffusion：AI繪圖","Webb太空望遠鏡","電動車：全球市佔率突破10%","Quest Pro：混合實境"],
     nobel: { awarded: true, physics: "阿斯佩、克勞澤、塞林格 — 量子糾纏", chemistry: "梅迪亞 — 觸媒研究", physiology: "帕博 — 尼安德塔人基因組", note: "ChatGPT發布；韋伯望遠鏡啟用" }
   },
   "2025": {
-    theme: "AI 與人類工作的融合",
-    era: "ai",
+    theme: "AI 與人類工作的融合", era: "ai",
     science: ["通用人工智慧初步探索","AI驅動科學發現加速","量子計算實用化","氣候技術突破：碳捕集","生物技術革新：基因編輯"],
     tech: ["AI Agent普及","自動駕駛規模化：Robotaxi","人形機器人商用","腦機介面臨床應用","6G研發啟動"],
     product: ["AI個人助理","AI穿戴設備：眼鏡與戒指","智能汽車：L3自動駕駛","AI創作工具：影音生成","空間計算設備輕量化"],
     nobel: { awarded: false, note: "諾貝爾獎尚未公布" }
   },
   "2026": {
-    theme: "AI 重塑社會",
-    era: "ai",
+    theme: "AI 重塑社會", era: "ai",
     science: ["通用AI能力持續擴展","AI加速基礎研究","量子計算進入應用","太空探索：人類重返月球","生物技術：基因治療普及"],
     tech: ["AI Agent常態化","自動駕駛L4普及","人形機器人進入家庭","腦機介面醫療擴展","6G標準制定加速"],
     product: ["AI助理：每人AI夥伴","AI穿戴：身體一部分","智能汽車：自動駕駛為主","空間計算：下一代平台","智慧家居：全屋智能"],
@@ -584,6 +567,12 @@ function getYearData(year) {
   return DATA[year] || null;
 }
 
+function escapeHtml(s) {
+  const d = document.createElement("div");
+  d.textContent = s;
+  return d.innerHTML;
+}
+
 function buildTimeline() {
   const tl = document.getElementById("miniTimeline");
   tl.innerHTML = "";
@@ -604,13 +593,17 @@ function updateDisplay(year) {
   const era = getEra(year);
   const ec = ERA_COLORS[era];
 
-  document.getElementById("yearNumber").textContent = year;
-  document.getElementById("yearTheme").textContent = d ? d.theme : "資料整理中⋯";
+  const rUrl = readmeUrl(year);
+  const pUrl = prefaceUrl(year);
+
+  document.getElementById("yearNumber").innerHTML = `<a href="${rUrl}" target="_blank">${year}</a>`;
+  document.getElementById("yearTheme").innerHTML = `<a href="${pUrl}" target="_blank">${d ? escapeHtml(d.theme) : '資料整理中⋯'} ↗</a>`;
   document.getElementById("yearSlider").value = year;
 
   const badge = document.getElementById("eraBadge");
   badge.textContent = ec.label;
   badge.className = "era-badge era-" + era;
+  badge.href = rUrl;
 
   document.querySelectorAll(".tl-seg").forEach(s => {
     s.classList.toggle("active", s.dataset.year === String(year));
@@ -625,29 +618,23 @@ function updateDisplay(year) {
     return;
   }
 
-  // Science card
   container.innerHTML += makeCard("science", "🔬 科學", d.science);
   container.innerHTML += makeCard("tech", "⚙ 技術", d.tech);
   container.innerHTML += makeCard("product", "📦 產品", d.product);
   container.innerHTML += makeNobelCard(d.nobel);
-}
-
-const GITHUB_BASE = 'https://github.com/cccmag/aisciencetechnology/blob/main';
-let currentYear = 1901;
-
-function articleUrl(year, filename) {
-  return GITHUB_BASE + '/' + year + '/' + filename;
+  container.innerHTML += makeHistoryCard();
 }
 
 function makeCard(type, title, items) {
   const fnames = { science: 'science', tech: 'technology', product: 'product' };
   const prefix = fnames[type] || type;
-  let html = `<div class="card card-${type}"><h3><span class="icon">${title}</span></h3><ul>`;
+  const rUrl = readmeUrl(currentYear);
+  let html = `<div class="card card-${type}"><h3><a href="${rUrl}" target="_blank">${title} ↗</a></h3><ul>`;
   items.forEach((it, idx) => {
     if (it) {
       const fn = prefix + (idx + 1) + '.md';
       const url = articleUrl(currentYear, fn);
-      html += `<li><span class="event-dot ${type}"></span><a href="${url}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='inherit'">${escapeHtml(it)} ↗</a></li>`;
+      html += `<li><a href="${url}" target="_blank">${escapeHtml(it)} ↗</a></li>`;
     }
   });
   html += "</ul></div>";
@@ -656,32 +643,37 @@ function makeCard(type, title, items) {
 
 function makeNobelCard(n) {
   const yr = currentYear;
-  if (!n) return `<div class="card card-nobel"><h3><span class="icon">🏆 諾貝爾獎</span></h3><p style="color:#667;font-size:0.85rem;padding:0.5rem 0;">資料整理中</p></div>`;
+  const rUrl = readmeUrl(yr);
+  if (!n) return `<div class="card card-nobel"><h3><a href="${rUrl}" target="_blank">🏆 諾貝爾獎 ↗</a></h3><p style="color:#667;font-size:0.85rem;padding:0.5rem 0;">資料整理中</p></div>`;
   const fieldFiles = { physics: 'nobel_physics', chemistry: 'nobel_chemistry', physiology: 'nobel_physiology' };
-  let html = `<div class="card card-nobel"><h3><span class="icon">🏆 諾貝爾獎</span></h3>`;
+  let html = `<div class="card card-nobel"><h3><a href="${rUrl}" target="_blank">🏆 諾貝爾獎 ↗</a></h3>`;
   if (n.awarded) {
     ['physics','chemistry','physiology'].forEach(k => {
       if (n[k] && !n[k].includes('停發') && !n[k].includes('未頒發')) {
         const fn = fieldFiles[k] + '.md';
         const url = articleUrl(yr, fn);
         const label = k === 'physics' ? '物理學' : k === 'chemistry' ? '化學' : '醫學';
-        html += `<div class="nobel-item"><span class="nobel-field">${label}</span>`;
-        html += `<span class="nobel-detail"><a href="${url}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='inherit'">${escapeHtml(n[k])} ↗</a></span></div>`;
+        html += `<div class="nobel-item"><span class="nobel-field">${label}</span><span class="nobel-detail"><a href="${url}" target="_blank">${escapeHtml(n[k])} ↗</a></span></div>`;
       }
     });
   } else {
-    html += `<div style="padding:0.5rem 0;"><span class="tag tag-nobel-none">未頒發</span> <a href="${articleUrl(yr, 'nobel.md')}" target="_blank" rel="noopener" style="color:#778;font-size:0.8rem;text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='#778'">📖 詳情 ↗</a></div>`;
+    html += `<div style="padding:0.5rem 0;"><span class="tag tag-nobel-none">未頒發</span></div>`;
   }
-  html += `<div style="margin-top:0.3rem;"><a href="${articleUrl(yr, 'nobel.md')}" target="_blank" rel="noopener" style="color:#778;font-size:0.8rem;text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='#778'">📖 閱讀詳情 ↗</a></div>`;
+  html += `<a href="${articleUrl(yr, 'nobel.md')}" class="card-footer-link" target="_blank">📖 閱讀詳情 ↗</a>`;
   if (n.note) html += `<div class="nobel-note">📌 ${escapeHtml(n.note)}</div>`;
   html += "</div>";
   return html;
 }
 
-function escapeHtml(s) {
-  const d = document.createElement("div");
-  d.textContent = s;
-  return d.innerHTML;
+function makeHistoryCard() {
+  const yr = currentYear;
+  const rUrl = readmeUrl(yr);
+  return `<div class="card" style="border-color:#3a2a1a;"><h3 style="color:#c0a070;border-color:#3a2a1a;"><a href="${rUrl}" target="_blank" style="color:inherit;text-decoration:none;">📜 歷史穿梭 ↗</a></h3>
+    <a href="${historyUrl(yr)}" class="card-footer-link" target="_blank">📖 連結過去與未來 ↗</a>
+    <a href="${articleUrl(yr, 'h_economics.md')}" class="card-footer-link" target="_blank">💰 經濟穿梭 ↗</a>
+    <a href="${articleUrl(yr, 'h_military.md')}" class="card-footer-link" target="_blank">⚔️ 軍事穿梭 ↗</a>
+    <a href="${articleUrl(yr, 'h_politics.md')}" class="card-footer-link" target="_blank">🏛️ 政治穿梭 ↗</a>
+    <a href="${articleUrl(yr, 'h_thoughts.md')}" class="card-footer-link" target="_blank">💭 思想穿梭 ↗</a></div>`;
 }
 
 function goToYear(y) {
@@ -706,7 +698,6 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowRight" && cur < 2026) goToYear(cur + 1);
 });
 
-// Keyboard navigation hint
 buildTimeline();
 goToYear(1901);
 </script>
