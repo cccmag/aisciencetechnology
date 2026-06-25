@@ -599,6 +599,7 @@ function buildTimeline() {
 }
 
 function updateDisplay(year) {
+  currentYear = year;
   const d = getYearData(year);
   const era = getEra(year);
   const ec = ERA_COLORS[era];
@@ -631,25 +632,47 @@ function updateDisplay(year) {
   container.innerHTML += makeNobelCard(d.nobel);
 }
 
+const GITHUB_BASE = 'https://github.com/cccmag/aisciencetechnology/blob/main';
+let currentYear = 1901;
+
+function articleUrl(year, filename) {
+  return GITHUB_BASE + '/' + year + '/' + filename;
+}
+
 function makeCard(type, title, items) {
+  const fnames = { science: 'science', tech: 'technology', product: 'product' };
+  const prefix = fnames[type] || type;
   let html = `<div class="card card-${type}"><h3><span class="icon">${title}</span></h3><ul>`;
-  items.forEach(it => {
-    html += `<li><span class="event-dot ${type}"></span>${escapeHtml(it)}</li>`;
+  items.forEach((it, idx) => {
+    if (it) {
+      const fn = prefix + (idx + 1) + '.md';
+      const url = articleUrl(currentYear, fn);
+      html += `<li><span class="event-dot ${type}"></span><a href="${url}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='inherit'">${escapeHtml(it)} ↗</a></li>`;
+    }
   });
   html += "</ul></div>";
   return html;
 }
 
 function makeNobelCard(n) {
+  const yr = currentYear;
   if (!n) return `<div class="card card-nobel"><h3><span class="icon">🏆 諾貝爾獎</span></h3><p style="color:#667;font-size:0.85rem;padding:0.5rem 0;">資料整理中</p></div>`;
+  const fieldFiles = { physics: 'nobel_physics', chemistry: 'nobel_chemistry', physiology: 'nobel_physiology' };
   let html = `<div class="card card-nobel"><h3><span class="icon">🏆 諾貝爾獎</span></h3>`;
   if (n.awarded) {
-    if (n.physics) html += `<div class="nobel-item"><span class="nobel-field">物理學</span><span class="nobel-detail">${escapeHtml(n.physics)}</span></div>`;
-    if (n.chemistry) html += `<div class="nobel-item"><span class="nobel-field">化學</span><span class="nobel-detail">${escapeHtml(n.chemistry)}</span></div>`;
-    if (n.physiology) html += `<div class="nobel-item"><span class="nobel-field">醫學</span><span class="nobel-detail">${escapeHtml(n.physiology)}</span></div>`;
+    ['physics','chemistry','physiology'].forEach(k => {
+      if (n[k] && !n[k].includes('停發') && !n[k].includes('未頒發')) {
+        const fn = fieldFiles[k] + '.md';
+        const url = articleUrl(yr, fn);
+        const label = k === 'physics' ? '物理學' : k === 'chemistry' ? '化學' : '醫學';
+        html += `<div class="nobel-item"><span class="nobel-field">${label}</span>`;
+        html += `<span class="nobel-detail"><a href="${url}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='inherit'">${escapeHtml(n[k])} ↗</a></span></div>`;
+      }
+    });
   } else {
-    html += `<div style="padding:0.5rem 0;"><span class="tag tag-nobel-none">未頒發</span></div>`;
+    html += `<div style="padding:0.5rem 0;"><span class="tag tag-nobel-none">未頒發</span> <a href="${articleUrl(yr, 'nobel.md')}" target="_blank" rel="noopener" style="color:#778;font-size:0.8rem;text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='#778'">📖 詳情 ↗</a></div>`;
   }
+  html += `<div style="margin-top:0.3rem;"><a href="${articleUrl(yr, 'nobel.md')}" target="_blank" rel="noopener" style="color:#778;font-size:0.8rem;text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='#778'">📖 閱讀詳情 ↗</a></div>`;
   if (n.note) html += `<div class="nobel-note">📌 ${escapeHtml(n.note)}</div>`;
   html += "</div>";
   return html;

@@ -360,7 +360,12 @@
 
 <script>
 const VIEWS = ['timeline','science','tech','product','nobel','search'];
+const GITHUB_BASE = 'https://github.com/cccmag/aisciencetechnology/blob/main';
 let DATA = {};
+
+function articleUrl(year, filename) {
+  return GITHUB_BASE + '/' + year + '/' + filename;
+}
 
 async function init() {
   try {
@@ -540,11 +545,17 @@ function renderTLCards(year) {
 }
 
 function makeTLCard(type, title, items) {
+  const fnames = { science: 'science', tech: 'technology', product: 'product' };
+  const prefix = fnames[type] || type;
   const div = document.createElement('div');
   div.className = 'card card-' + type;
   let h = `<h3>${title}</h3><ul>`;
-  items.forEach(it => {
-    if (it) h += `<li>${esc(it)}</li>`;
+  items.forEach((it, idx) => {
+    if (it) {
+      const fn = prefix + (idx + 1) + '.md';
+      const url = articleUrl(currentYear, fn);
+      h += `<li><a href="${url}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:block;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='inherit'">${esc(it)} ↗</a></li>`;
+    }
   });
   h += '</ul>';
   div.innerHTML = h;
@@ -554,20 +565,24 @@ function makeTLCard(type, title, items) {
 function makeTLNobel(n) {
   const div = document.createElement('div');
   div.className = 'card card-nobel';
+  const yr = currentYear;
   if (!n || !n.awarded) {
-    div.innerHTML = '<h3>🏆 諾貝爾獎</h3><div style="padding:0.4rem 0;color:#556;font-size:0.85rem;">本年未頒發</div>';
+    let h = '<h3>🏆 諾貝爾獎</h3><div style="padding:0.4rem 0;color:#556;font-size:0.85rem;">本年未頒發</div>';
+    h += `<div style="margin-top:0.3rem;"><a href="${articleUrl(yr, 'nobel.md')}" target="_blank" rel="noopener" style="color:#778;font-size:0.8rem;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='#778'">📖 閱讀詳情 ↗</a></div>`;
+    div.innerHTML = h;
     return div;
   }
+  const fieldFiles = { physics: 'nobel_physics', chemistry: 'nobel_chemistry', physiology: 'nobel_physiology' };
   let h = '<h3>🏆 諾貝爾獎</h3>';
-  if (n.physics && !n.physics.includes('停發') && !n.physics.includes('未頒發')) {
-    h += `<div class="nobel-item"><span class="nobel-field">物理</span><span class="nobel-detail">${esc(n.physics)}</span></div>`;
-  }
-  if (n.chemistry && !n.chemistry.includes('停發') && !n.chemistry.includes('未頒發')) {
-    h += `<div class="nobel-item"><span class="nobel-field">化學</span><span class="nobel-detail">${esc(n.chemistry)}</span></div>`;
-  }
-  if (n.physiology && !n.physiology.includes('停發') && !n.physiology.includes('未頒發')) {
-    h += `<div class="nobel-item"><span class="nobel-field">醫學</span><span class="nobel-detail">${esc(n.physiology)}</span></div>`;
-  }
+  ['physics','chemistry','physiology'].forEach(k => {
+    if (n[k] && !n[k].includes('停發') && !n[k].includes('未頒發')) {
+      const fn = fieldFiles[k] + '.md';
+      const url = articleUrl(yr, fn);
+      h += `<div class="nobel-item"><span class="nobel-field">${k === 'physics' ? '物理' : k === 'chemistry' ? '化學' : '醫學'}</span>`;
+      h += `<span class="nobel-detail"><a href="${url}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='inherit'">${esc(n[k])} ↗</a></span></div>`;
+    }
+  });
+  h += `<div style="margin-top:0.3rem;"><a href="${articleUrl(yr, 'nobel.md')}" target="_blank" rel="noopener" style="color:#778;font-size:0.8rem;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='#778'">📖 閱讀詳情 ↗</a></div>`;
   if (n.note) h += `<div class="nobel-note">📌 ${esc(n.note)}</div>`;
   div.innerHTML = h;
   return div;
@@ -619,6 +634,8 @@ function renderCatList(catKey, eraFilter) {
   const list = document.getElementById('catList-' + catKey);
   list.innerHTML = '';
   const years = Object.keys(DATA).sort((a,b) => a-b);
+  const fnames = { science: 'science', tech: 'technology', product: 'product' };
+  const prefix = fnames[catKey] || catKey;
 
   let items = [];
   years.forEach(y => {
@@ -638,18 +655,17 @@ function renderCatList(catKey, eraFilter) {
     return;
   }
 
-  // Group by year for compact display
-  let currentY = '';
   items.forEach(it => {
     const div = document.createElement('div');
     div.className = 'cat-item fade-in';
+    const fn = prefix + (it.idx + 1) + '.md';
+    const url = articleUrl(it.year, fn);
     div.innerHTML = `
       <span class="cicon">${it.idx === 0 ? '★' : '·'}</span>
       <span class="cyear">${it.year}</span>
-      <span class="ctext">${esc(it.text)}</span>
+      <span class="ctext"><a href="${url}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='inherit'">${esc(it.text)} ↗</a></span>
     `;
-    div.addEventListener('click', () => { switchView('timeline'); goYear(it.year); });
-    div.style.cursor = 'pointer';
+    div.addEventListener('click', (e) => { if (!e.target.closest('a')) { switchView('timeline'); goYear(it.year); } });
     list.appendChild(div);
   });
 }
@@ -700,6 +716,7 @@ function renderNobelList(filter) {
   const list = document.getElementById('nobelList');
   list.innerHTML = '';
   const years = Object.keys(DATA).sort((a,b) => a-b);
+  const fieldFiles = { physics: 'nobel_physics', chemistry: 'nobel_chemistry', physiology: 'nobel_physiology' };
 
   const entries = [];
   years.forEach(y => {
@@ -714,7 +731,7 @@ function renderNobelList(filter) {
     cats.forEach(c => {
       if (n[c.key] && !n[c.key].includes('停發') && !n[c.key].includes('未頒發') && !n[c.key].includes('（本年')) {
         if (filter === 'all' || filter === c.key) {
-          entries.push({ year: y, cat: c.key, catLabel: c.label, text: n[c.key] });
+          entries.push({ year: y, cat: c.key, catLabel: c.label, text: n[c.key], file: fieldFiles[c.key] });
         }
       }
     });
@@ -728,13 +745,13 @@ function renderNobelList(filter) {
   entries.forEach(e => {
     const div = document.createElement('div');
     div.className = 'nobel-entry fade-in';
+    const url = articleUrl(e.year, e.file + '.md');
     div.innerHTML = `
       <span class="nyear">${e.year}</span>
       <span class="ncat n-${e.cat}">${e.catLabel}</span>
-      <span class="ndetail">${esc(e.text)}</span>
+      <span class="ndetail"><a href="${url}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='inherit'">${esc(e.text)} ↗</a></span>
     `;
-    div.addEventListener('click', () => { switchView('timeline'); goYear(e.year); });
-    div.style.cursor = 'pointer';
+    div.addEventListener('click', (e2) => { if (!e2.target.closest('a')) { switchView('timeline'); goYear(e.year); } });
     list.appendChild(div);
   });
 }
@@ -813,15 +830,20 @@ function doSearch() {
     return;
   }
 
+  const fnames = { science: 'science', tech: 'technology', product: 'product', nobel: 'nobel' };
   results.forEach(r => {
     const div = document.createElement('div');
     div.className = 'cat-item';
+    let url = articleUrl(r.year, 'nobel.md');
+    if (r.cat !== 'nobel') {
+      const prefix = fnames[r.cat] || r.cat;
+      url = articleUrl(r.year, prefix + '1.md');
+    }
     div.innerHTML = `
       <span class="cyear">${r.year}</span>
-      <span class="ctext">${esc(r.catLabel)} · ${esc(r.text)}</span>
+      <span class="ctext"><a href="${url}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='inherit'">${esc(r.catLabel)} · ${esc(r.text)} ↗</a></span>
     `;
-    div.addEventListener('click', () => { switchView('timeline'); goYear(r.year); });
-    div.style.cursor = 'pointer';
+    div.addEventListener('click', (e) => { if (!e.target.closest('a')) { switchView('timeline'); goYear(r.year); } });
     list.appendChild(div);
   });
 }
