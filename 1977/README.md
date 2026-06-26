@@ -16,7 +16,7 @@
 1. [VLSI製程突破](technology1.md) -- 半導體工藝的飛躍
 2. [脈衝神經網路](technology2.md) -- 神經形態計算的開端
 3. [光纖通信實用化](technology3.md) -- 資訊高速公路成型
-4. [數位信號處理器](technology4.md) -- 訊號處理革命
+4. [RSA 加密演算法](technology4.md) -- 公開金鑰密碼學的革命
 5. [雷射技術應用](technology5.md) -- 雷射的多元化時代
 
 ### 本年度產品

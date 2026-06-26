@@ -424,7 +424,58 @@
     font-size: 1.5rem; background: linear-gradient(90deg, #e8d5b7, #ffd700, #e8d5b7);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   }
+
+  #view-math { max-width: 900px; margin: 0 auto; }
+  #view-math h2 {
+    font-size: 1.3rem; color: #81c784; margin: 1.5rem 0 0.8rem;
+    padding-bottom: 0.3rem; border-bottom: 2px solid #2a4a2a;
+  }
+  #view-math h3 {
+    font-size: 1.1rem; color: #4fc3f7; margin: 1.2rem 0 0.5rem;
+  }
+  #view-math h4 {
+    font-size: 0.95rem; color: #ce93d8; margin: 1rem 0 0.4rem;
+  }
+  #view-math p { font-size: 0.9rem; line-height: 1.6; margin: 0.5rem 0; color: #ccc; }
+  #view-math ul, #view-math ol { margin: 0.4rem 0 0.4rem 1.5rem; }
+  #view-math li { font-size: 0.88rem; line-height: 1.5; margin: 0.2rem 0; color: #bbb; }
+  #view-math strong { color: #81c784; }
+  #view-math em { color: #b0bec5; }
+  #view-math a { color: #81c784; text-decoration: none; }
+  #view-math a:hover { text-decoration: underline; }
+  #view-math hr {
+    border: none; border-top: 1px solid #2a2a3e; margin: 1.5rem 0;
+  }
+  #view-math table {
+    width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.85rem;
+  }
+  #view-math th, #view-math td {
+    border: 1px solid #2a4a2a; padding: 0.5rem 0.7rem; text-align: left;
+  }
+  #view-math th { background: #1a2a1a; color: #aab; font-weight: 600; }
+  #view-math td { background: #182218; color: #bbb; }
+  #view-math .tex {
+    background: #0d0d18; border: 1px solid #2a2a4a; border-radius: 10px;
+    padding: 1rem 1.5rem; margin: 0.6rem 0; text-align: center;
+    overflow-x: auto; font-size: 1.2rem;
+  }
+  #view-math .math-header {
+    text-align: center; margin-bottom: 2rem; padding-bottom: 1rem;
+    border-bottom: 1px solid #2a4a2a;
+  }
+  #view-math .math-header h1 {
+    font-size: 1.5rem; background: linear-gradient(90deg, #81c784, #a5d6a7, #81c784);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  #view-math .mermaid {
+    background: #111; border-radius: 10px; padding: 1rem;
+    margin: 0.6rem 0; display: flex; justify-content: center;
+  }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -441,6 +492,7 @@
   <div class="tab" data-view="nobel">🏆 諾貝爾獎</div>
   <div class="tab" data-view="search">🔍 搜尋</div>
   <div class="tab" data-view="inference">🧠 推論</div>
+  <div class="tab" data-view="math">📐 數學</div>
 </div>
 
 <div class="main" id="app">
@@ -760,6 +812,269 @@ const INFERENCE_HTML = [
 '<li><a href="https://zh.wikipedia.org/wiki/數位革命" target="_blank" rel="noopener">維基百科：數位革命</a></li>',
 '<li><a href="https://www.google.com/search?q=technology+development+tree+history+timeline" target="_blank" rel="noopener">Google 搜尋：Technology Tree 科技樹 歷史</a></li>',
 '<li><a href="https://www.google.com/search?q=path+dependence+technology+development" target="_blank" rel="noopener">Google 搜尋：Path dependence 路徑依賴 科技發展</a></li>',
+'</ul>'
+].join('\n');
+
+const MATH_HTML = [
+'<div class="math-header">',
+'<h1>數學之鏈：科技背後的數學基礎</h1>',
+'<p style="color:#778;font-size:0.9rem;">沒有數學 → 就沒有科學 → 就沒有技術 → 就沒有現代文明</p>',
+'</div>',
+'<p>每一項改變世界的技術，背後都站著一條數學定理。從你口袋裡的手機到太空中的衛星，從醫院的 MRI 到 ChatGPT——若抽離了數學，整座科技大廈將轟然倒塌。這份文件揭示那些隱藏在科技背後的數學力量。</p>',
+'',
+'<h2>1. 從布林代數到數位世界</h2>',
+'<p>沒有布林，就沒有電腦——這句話毫不誇張。</p>',
+'<div class="tex">$$F(x, y, z) = (x \\land y) \\lor (\\lnot y \\land z)$$</div>',
+'<pre><code>布林代數 (Boole, 1854)',
+'  └→ 邏輯閘理論 (Shannon, 1938)',
+'       ├→ 數位電路設計',
+'       │    ├→ 算術邏輯單元 (ALU)',
+'       │    ├→ 記憶體位址解碼',
+'       │    └→ 處理器控制單元',
+'       │         └→ 馮紐曼架構 (1945)',
+'       │              ├→ 通用電腦 → 大型主機 (1950s) → 個人電腦 (1975) → 智慧手機 (2007)',
+'       │              └→ GPU 運算 → 深度學習 (2012)',
+'       └→ 布林運算最佳化 → 邏輯合成 → EDA 工具 → 硬體描述語言',
+'',
+'任何邏輯函數都可以用 AND、OR、NOT 三種運算來表達。</code></pre>',
+'<p><strong>推論</strong>：沒有 1854 年布林的邏輯代數，香農就無法在 1938 年用繼電器實現邏輯閘，也就沒有數位電路。沒有數位電路，就沒有電腦——每一行程式碼，本質上都是布林運算的組合。</p>',
+'',
+'<h2>2. 從傅立葉分析到數位媒體</h2>',
+'<p>你聽的 MP3、看的 JPEG、打的電話——全都靠傅立葉變換。</p>',
+'<div class="tex">$$f(t) = \\sum_{n=-\\infty}^{\\infty} c_n e^{i n \\omega t}$$</div>',
+'<pre><code>傅立葉級數 (Fourier, 1822)',
+'  └→ 傅立葉變換',
+'       ├→ 離散傅立葉變換 (DFT) → FFT (1965)',
+'       │    ├→ JPEG 壓縮 (1992) → DCT → 數位照片',
+'       │    ├→ MP3 壓縮 (1993) → MDCT → 數位音樂革命',
+'       │    └→ 數位通信 → OFDM → WiFi (1997) → 4G (2009) → 5G (2019)',
+'       └→ 頻譜分析 → 雷達信號處理 → CT 重建 → 語音辨識',
+'',
+'從時域到頻域，傅立葉變換讓我們用全新的視角看世界。</code></pre>',
+'<p><strong>推論</strong>：沒有傅立葉分析，就沒有 JPEG 和 MP3——你的手機將無法儲存照片或音樂，YouTube 和 Spotify 根本不可能存在。沒有 OFDM，就沒有 WiFi 和 4G/5G。</p>',
+'',
+'<h2>3. 從線性代數到人工智慧</h2>',
+'<p>深度學習的本質，就是一連串的矩陣乘法。</p>',
+'<div class="tex">$$\\mathbf{y} = \\sigma(\\mathbf{W}\\mathbf{x} + \\mathbf{b})$$</div>',
+'<pre><code>線性代數',
+'  ├→ 矩陣運算 → GPU → CUDA (2007) → 深度學習訓練',
+'  │    ├→ 神經網路 → 感知機 (1957) → MLP → 反向傳播 (1986) → 深度學習 (2006)',
+'  │    │    ├→ CNN (1989) → 影像分類 → 人臉辨識 → 自動駕駛',
+'  │    │    ├→ RNN → LSTM (1997) → 語音辨識 → Siri (2011)',
+'  │    │    └→ Transformer (2017) → BERT → GPT → ChatGPT (2022)',
+'  │    ├→ 嵌入 → Word2Vec (2013) → 語義搜尋',
+'  │    └→ 奇異值分解 (SVD) → 推薦系統 → Netflix / YouTube',
+'  ├→ 特徵值 → PCA → 數據科學',
+'  └→ 向量空間 → 編碼理論 → 糾錯碼 → 衛星通信',
+'',
+'神經網路訓練：權重矩陣的反覆更新。</code></pre>',
+'<div class="tex">$$\\mathbf{W}^{(l+1)} = \\mathbf{W}^{(l)} - \\eta \\frac{\\partial \\mathcal{L}}{\\partial \\mathbf{W}^{(l)}}$$</div>',
+'<p><strong>推論</strong>：沒有線性代數，就沒有神經網路——它們本質上就是一連串的矩陣乘法加上非線性激活函數。沒有 GPU 的大規模矩陣運算，深度學習就無法訓練。沒有 Transformer 中的注意力機制，就沒有 ChatGPT。</p>',
+'',
+'<h2>4. 從機率論到機器學習</h2>',
+'<p>機器學習的每一個環節——從貝氏分類器到大型語言模型——都建構在機率論之上。</p>',
+'<div class="tex">$$P(A|B) = \\frac{P(B|A)P(A)}{P(B)}$$</div>',
+'<pre><code>機率論',
+'  ├→ 貝氏統計 → 貝氏分類器 → 垃圾郵件過濾',
+'  │    ├→ 馬可夫鏈 → MDP → 強化學習 → AlphaGo (2016) → 機器人控制',
+'  │    └→ 隱馬可夫模型 (HMM) → 語音辨識 → 基因序列分析',
+'  ├→ 最大似然估計 (MLE) → 迴歸分析 → 預測模型 → 深度學習損失函數',
+'  ├→ 蒙地卡羅方法 → 粒子濾波 → GPS 定位 → MCMC → 貝氏統計',
+'  └→ 中央極限定理 → 統計推論 → A/B 測試 → 產品決策',
+'',
+'大型語言模型的「下一個詞預測」本質上就是條件機率：P(w_t | w_1, ..., w_{t-1})</code></pre>',
+'<p><strong>推論</strong>：沒有貝氏定理，就沒有垃圾郵件過濾器。沒有馬可夫鏈，就沒有強化學習和 AlphaGo。沒有最大似然估計，就沒有訓練神經網路的數學框架。</p>',
+'',
+'<h2>5. 從數論到密碼學——戰爭驅動的加密演進</h2>',
+'<p>每一筆網路交易、每一則加密訊息——都依賴數論。但密碼學的每一次重大飛躍，背後都站著戰爭。</p>',
+'<div class="tex">$$c \\equiv m^e \\pmod{n}$$</div>',
+'<pre><code>數論',
+'  ├→ 質數理論 → RSA 加密 (Rivest-Shamir-Adleman, 1977) → HTTPS → 電子商務',
+'  │    └→ 數位簽章 → 軟體信任 → 作業系統更新',
+'  ├→ 離散對數問題 → Diffie-Hellman (1976) → SSH, VPN',
+'  └→ 橢圓曲線理論 → ECC (1985) → 比特幣 (2009) → 區塊鏈 → Ethereum (2015)',
+'',
+'---</code></pre>',
+'<h3>戰爭與密碼學的歷史纏繞</h3>',
+'<pre><code>戰爭驅動的密碼學演進',
+'  ├→ 第一次世界大戰 (1914-1918)',
+'  │    ├→ 無線電加密 → 密碼分析學崛起',
+'  │    │    ├→ 齊默爾曼電報 (1917) → 美國參戰',
+'  │    │    └→ 各國密碼局成立',
+'  │    └→ 人工密碼破譯 → 語言學與統計分析',
+'  ├→ 第二次世界大戰 (1939-1945)',
+'  │    ├→ Enigma 密碼機 (德國)',
+'  │    │    ├→ 波蘭數學家先期破解 (雷耶夫斯基, 1932)',
+'  │    │    └→ 圖靈的 Bombe (1939)',
+'  │    │         └→ Colossus 電腦 (1943) → 第一台可程式電腦 → 電腦科學誕生',
+'  │    ├→ 紫密碼 (日本) → MAGIC 破譯 → 中途島海戰 (1942)',
+'  │    └→ 納瓦荷密碼 (美國) → 語音加密技術',
+'  ├→ 冷戰時期 (1947-1991)',
+'  │    ├→ 香農的保密系統理論 (1949) → 一次一密亂碼本 → 資訊理論',
+'  │    ├→ DES 加密標準 (1977) → 金融交易安全',
+'  │    └→ 非對稱密碼學',
+'  │         ├→ GCHQ 先行研究 (Ellis-Cocks, 1969-1973)',
+'  │         └→ RSA 演算法 (1977) → HTTPS → 數位簽章',
+'  └→ 網路時代 (1990-)',
+'       ├→ 密碼龐克運動 → PGP (1991) → 平民加密',
+'       │    └→ HashCash (1997) → 工作量證明',
+'       │         └→ 比特幣 (中本聰, 2009) → 區塊鏈 → Ethereum (2015)',
+'       └→ 量子威脅 → Shor 演算法 (1994) → 後量子密碼學 (2020s)',
+'',
+'---</code></pre>',
+'<p><strong>二戰密碼破譯：從 Enigma 到 Colossus</strong></p>',
+'<p>第二次世界大戰是一場密碼戰。德國的 Enigma 密碼機被認為無法破解，但波蘭數學家雷耶夫斯基在 1932 年首次破解了 Enigma。1939 年波蘭淪陷後，他們將研究成果轉交給英國。</p>',
+'<p>艾倫·圖靈在布萊切利園設計了 Bombe——一種專門破解 Enigma 的機電裝置。隨後，佛勞爾斯建造了 Colossus——世界第一台可程式電子電腦，用於破解德國的洛倫茲密碼。Colossus 的誕生意義遠超戰爭本身：它證明了電子計算機的可行性，直接催生了戰後的電腦革命。</p>',
+'<p><strong>冷戰與公開金鑰革命</strong></p>',
+'<p>1951 年，香農發表了《保密系統的通信理論》，將密碼學建立在資訊理論的基礎上。1976 年，迪菲和赫爾曼提出了公開金鑰密碼學的概念。1977 年，瑞維斯特、夏米爾和艾德曼實現了第一個公開金鑰演算法——RSA。有趣的是，英國 GCHQ 的艾利斯和考克斯早在 1969-1973 年間就已獨立發現了同樣的原理，但因國家安全原因被列為機密。</p>',
+'<div class="tex">$$n = p \\times q \\quad p, q \\text{ 為大質數} \\quad \\phi(n) = (p-1)(q-1)$$</div>',
+'<div class="tex">$$m^{e} \\equiv c \\pmod{n} \\quad c^{d} \\equiv m \\pmod{n}$$</div>',
+'<p><strong>網路時代：從密碼龐克到區塊鏈</strong></p>',
+'<p>1990 年代，密碼龐克運動將密碼學從軍事與政府的壟斷中解放出來。齊默爾曼於 1991 年發布了 PGP，讓普通人也能使用強加密。1997 年，貝克提出了 HashCash——工作量證明機制。2009 年，中本聰將工作量證明與區塊鏈結合，創造了比特幣——第一次在不信任的環境中建立了分散式共識。</p>',
+'<div class="tex">$$\\text{Block}_i = \\text{Hash}(\\text{Block}_{i-1} \\parallel \\text{Tx}_i \\parallel \\text{Nonce})$$</div>',
+'<p><strong>推論</strong>：密碼學的每一次突破都與戰爭和衝突密不可分——沒有二戰，就沒有電腦科學的誕生；沒有冷戰，就沒有公開金鑰密碼學；沒有密碼龐克運動的對抗精神，就沒有區塊鏈。數論不僅保護了網路安全，也改變了權力與信任的分配方式——從國家壟斷走向個人自治。</p>',
+'',
+'<h2>6. 從圖論到網路時代</h2>',
+'<p>從 Google 地圖到社群推薦——圖論無所不在。</p>',
+'<div class="tex">$$\\text{PageRank}(u) = \\sum_{v \\in B_u} \\frac{\\text{PageRank}(v)}{L(v)}$$</div>',
+'<pre><code>圖論 (Euler, 1736)',
+'  ├→ 最短路徑 → Dijkstra (1956) → GPS 導航 → Google Maps → 物流規畫',
+'  ├→ 最小生成樹 → Kruskal / Prim → 網路設計 → 電路佈線',
+'  ├→ 圖著色 → 頻率分配 → 無線通信 → 暫存器分配 → 編譯器',
+'  ├→ 網路流 → 最大流量 → 網路頻寬管理 → 匹配理論 → Uber 配對',
+'  └→ 社群網路分析 → PageRank (1998) → 搜尋引擎 → 知識圖譜 (2012)',
+'',
+'在圖上尋找最短路徑，是導航系統的核心。</code></pre>',
+'<p><strong>推論</strong>：沒有 Dijkstra 演算法，就沒有 GPS 導航。沒有 PageRank，就沒有 Google。沒有圖著色，無線通信的頻譜分配將陷入混亂。</p>',
+'',
+'<h2>7. 從微分方程到物理模擬</h2>',
+'<p>從橋樑結構到天氣預報——微分方程是物理世界的數學語言。</p>',
+'<div class="tex">$$\\frac{\\partial u}{\\partial t} = \\alpha \\nabla^2 u$$</div>',
+'<pre><code>微分方程',
+'  ├→ 常微分方程 (ODE) → 牛頓定律 F = ma → 遊戲物理 → 太空軌道 → 機器人控制',
+'  │    └→ 電路方程 V = L di/dt → SPICE → IC 設計',
+'  └→ 偏微分方程 (PDE)',
+'       ├→ 奈維爾-斯托克斯方程 → 流體力學 → 飛機設計 → 天氣預報',
+'       ├→ 麥克斯威方程組 → 電磁學 → 天線設計 → 手機、WiFi',
+'       ├→ 熱傳導方程 → 散熱設計 → 晶片散熱',
+'       └→ 薛定諤方程 → 量子力學 → 分子模擬 → 藥物設計',
+'',
+'麥克斯威方程組——現代通信的基石。</code></pre>',
+'<div class="tex">$$\\begin{aligned} \\nabla \\cdot \\mathbf{E} &= \\frac{\\rho}{\\varepsilon_0} \\ \\nabla \\cdot \\mathbf{B} &= 0 \\ \\nabla \\times \\mathbf{E} &= -\\frac{\\partial \\mathbf{B}}{\\partial t} \\ \\nabla \\times \\mathbf{B} &= \\mu_0 \\mathbf{J} + \\mu_0 \\varepsilon_0 \\frac{\\partial \\mathbf{E}}{\\partial t} \\end{aligned}$$</div>',
+'<p><strong>推論</strong>：沒有微分方程，工程師將無法預測橋樑是否會斷裂。沒有麥克斯威方程組，就沒有天線設計——手機和 WiFi 都將無法運作。</p>',
+'',
+'<h2>8. 從資訊理論到數位通信</h2>',
+'<p>香農在 1948 年發表的《通信的數學理論》開創了資訊時代。</p>',
+'<div class="tex">$$C = B \\log_2(1 + \\frac{S}{N})$$</div>',
+'<pre><code>香農資訊理論 (Shannon, 1948)',
+'  ├→ 資訊熵 H = -\\sum p_i \\log_2 p_i',
+'  │    ├→ 資料壓縮 → 霍夫曼編碼 → ZIP、PNG → 算術編碼 → JPEG、影片',
+'  │    └→ 交叉熵 → 深度學習損失函數',
+'  ├→ 通道容量 C = B \\log_2(1 + SNR)',
+'  │    ├→ 數位通信 → 數據機 → 寬頻 → 光纖',
+'  │    └→ 無線通道 → 3G (2001) → 4G (2009) → 5G (2019)',
+'  └→ 糾錯碼 → 漢明碼 (1950) → ECC 記憶體 → Reed-Solomon (1960) → CD/DVD/QR Code',
+'       └→ 渦輪碼 → 衛星通信 → LDPC → WiFi → 5G NR → 數位電視',
+'',
+'通道容量公式告訴我們通信的理論極限。</code></pre>',
+'<p><strong>推論</strong>：沒有資訊理論，就沒有資料壓縮——你的手機將無法儲存任何照片。沒有通道容量公式，我們不知道通信的極限。沒有糾錯碼，CD 會因為刮傷而無法播放。</p>',
+'',
+'<h2>9. 從統計學到現代科學</h2>',
+'<p>統計學是科學方法的數學化——沒有它，就無法從數據中提取可靠的結論。</p>',
+'<div class="tex">$$r = \\frac{\\sum{(x_i - \\bar{x})(y_i - \\bar{y})}}{\\sqrt{\\sum{(x_i - \\bar{x})^2}\\sum{(y_i - \\bar{y})^2}}}$$</div>',
+'<pre><code>統計學',
+'  ├→ 描述統計 → 平均數、標準差 → 品質管制 → Six Sigma → 製造業',
+'  ├→ 推論統計',
+'  │    ├→ 假設檢定 → A/B 測試 → 產品設計 → 臨床試驗 → 藥物批准 → 流行病學',
+'  │    └→ 迴歸分析 → 線性迴歸 → 預測模型 → 邏輯迴歸 → 風險評估',
+'  ├→ 實驗設計 → RCT → 實證醫學 → ANOVA → 農業實驗 → 綠色革命',
+'  └→ 多變量分析 → 因子分析 → 心理測量 → 聚類分析 → 市場區隔',
+'',
+'統計是數據時代的語言。</code></pre>',
+'<p><strong>推論</strong>：沒有統計學的假設檢定，就無法判斷藥物是否有效。沒有 A/B 測試，科技公司無法科學地優化產品。統計學是數據時代的語言。</p>',
+'',
+'<h2>10. 從幾何學到時空與影像</h2>',
+'<p>從愛因斯坦的時空彎曲到手機的相機鏡頭——幾何學無所不在。</p>',
+'<div class="tex">$$ds^2 = -c^2 dt^2 + dx^2 + dy^2 + dz^2$$</div>',
+'<pre><code>幾何學',
+'  ├→ 歐幾里得幾何',
+'  │    ├→ 計算機圖學 → 3D 渲染 → Pixar 電影 → 電玩',
+'  │    ├→ CAD/CAM → 產品設計 → 3D 列印 (1980s)',
+'  │    └→ 光學設計 → 鏡頭設計 → 相機、手機鏡頭 → 顯微鏡、望遠鏡',
+'  ├→ 非歐幾何 → 黎曼幾何 → 廣義相對論 (Einstein, 1915)',
+'  │    └→ GPS 相對論校正 → 衛星導航',
+'  └→ 微分幾何 → 電腦視覺 → 3D 重建 → 物體辨識',
+'',
+'GPS 每日需要數百公尺的相對論校正。</code></pre>',
+'<p><strong>推論</strong>：沒有黎曼幾何，愛因斯坦就無法寫出廣義相對論。沒有廣義相對論，GPS 的誤差將無法校正——你的導航會把你帶到鄰居家。</p>',
+'',
+'<h2>11. 從微積分到工程最佳化</h2>',
+'<p>微積分是工程的語言——從橋樑應力到 AI 訓練，處處可見。</p>',
+'<div class="tex">$$\\theta_{t+1} = \\theta_t - \\eta \\nabla_{\\theta} \\mathcal{L}(\\theta_t)$$</div>',
+'<pre><code>微積分',
+'  ├→ 微分 → 變化率 → 梯度 → 梯度下降法',
+'  │    └→ 機器學習訓練 → 線性迴歸 → 反向傳播 → 深度學習',
+'  ├→ 積分 → 面積體積 → 結構力學 → 建築 → 數值積分 → 氣候模型',
+'  └→ 變分法 → 最小作用量原理 → 最佳控制 → 火箭軌道 → SVM (1990s)',
+'',
+'梯度下降——機器學習的核心引擎。</code></pre>',
+'<p><strong>推論</strong>：沒有微積分的梯度概念，就無法訓練神經網路——反向傳播本質上就是鏈鎖律的應用。沒有變分法，就沒有最佳控制和現代工程最佳化。</p>',
+'',
+'<h2>12. 從群論到對稱性與物理</h2>',
+'<p>群論是研究對稱性的數學——從基本粒子到晶體結構。</p>',
+'<div class="tex">$$[G_{\\mu}, G_{\\nu}] = i f_{\\mu\\nu\\rho} G_{\\rho}$$</div>',
+'<pre><code>群論 (Galois, 1832)',
+'  ├→ 李群與李代數',
+'  │    ├→ 標準模型 SU(3) × SU(2) × U(1) → 粒子物理 → 希格斯機制',
+'  │    └→ 旋量與自旋 → 量子力學 → 電子自旋 → MRI',
+'  ├→ 晶體群 → X 射線繞射 → DNA 結構 (1953)',
+'  │    └→ 半導體晶體 → 能帶理論 → 電晶體 → LED',
+'  └→ 表示論 → 量子化學 → 分子軌道 → 藥物設計',
+'',
+'群論描述了自然界中的對稱性。</code></pre>',
+'<p><strong>推論</strong>：沒有群論的晶體學，就無法用 X 射線繞射解出 DNA 的雙螺旋結構。沒有李群，就無法建立標準模型。</p>',
+'',
+'<h2>總結：數學是科技的隱藏語言</h2>',
+'<table><thead>',
+'<tr><th>數學分支</th><th>關鍵概念</th><th>催生技術</th><th>影響領域</th></tr>',
+'</thead><tbody>',
+'<tr><td><strong>布林代數</strong></td><td>邏輯運算</td><td>數位電路、電腦</td><td>整個數位世界</td></tr>',
+'<tr><td><strong>傅立葉分析</strong></td><td>頻域變換</td><td>JPEG、MP3、OFDM</td><td>數位媒體、通信</td></tr>',
+'<tr><td><strong>線性代數</strong></td><td>矩陣運算</td><td>神經網路、GPU</td><td>AI、遊戲、影像</td></tr>',
+'<tr><td><strong>機率論</strong></td><td>不確定性量化</td><td>機器學習、密碼學</td><td>AI、安全</td></tr>',
+'<tr><td><strong>數論</strong></td><td>質數、同餘</td><td>RSA、區塊鏈</td><td>網路安全、加密貨幣、情報戰</td></tr>',
+'<tr><td><strong>圖論</strong></td><td>網路結構</td><td>GPS 導航、PageRank</td><td>交通、搜尋</td></tr>',
+'<tr><td><strong>微分方程</strong></td><td>變化與場</td><td>物理模擬、天線</td><td>工程、物理</td></tr>',
+'<tr><td><strong>資訊理論</strong></td><td>熵與通道容量</td><td>壓縮、糾錯碼</td><td>通信、儲存</td></tr>',
+'<tr><td><strong>統計學</strong></td><td>推論與顯著性</td><td>A/B 測試、臨床試驗</td><td>科學、產品</td></tr>',
+'<tr><td><strong>幾何學</strong></td><td>空間與形狀</td><td>GPS、3D 渲染</td><td>導航、娛樂</td></tr>',
+'<tr><td><strong>微積分</strong></td><td>變化與累積</td><td>梯度下降、工程設計</td><td>AI、工程</td></tr>',
+'<tr><td><strong>群論</strong></td><td>對稱性</td><td>標準模型、晶體學</td><td>物理、材料</td></tr>',
+'</tbody></table>',
+'',
+'<hr>',
+'<p><strong>最後的推論</strong></p>',
+'<p><strong>沒有數學，就沒有科學。沒有科學，就沒有技術。沒有技術，就沒有現代文明。</strong></p>',
+'<p>當你拿起手機時，你握著的不是一部裝置——而是一團凝固的數學：</p>',
+'<ul>',
+'<li>通訊靠 <strong>傅立葉分析</strong> 和 <strong>資訊理論</strong></li>',
+'<li>運算靠 <strong>布林代數</strong> 和 <strong>線性代數</strong></li>',
+'<li>定位靠 <strong>幾何學</strong> 和 <strong>相對論</strong></li>',
+'<li>加密靠 <strong>數論</strong></li>',
+'<li>AI 靠 <strong>線性代數</strong>、<strong>微積分</strong>、<strong>機率論</strong></li>',
+'<li>照片和音樂靠 <strong>傅立葉分析</strong></li>',
+'<li>應用程式靠 <strong>圖論</strong> 來推薦內容</li>',
+'</ul>',
+'<p>數學不是一門在教室裡考試用的科目——<strong>它是這個世界運作的原始碼</strong>。</p>',
+'',
+'<hr>',
+'<p><strong>延伸閱讀：</strong></p>',
+'<ul>',
+'<li><a href="https://zh.wikipedia.org/wiki/数学史" target="_blank" rel="noopener">維基百科：數學史</a></li>',
+'<li><a href="https://zh.wikipedia.org/wiki/应用数学" target="_blank" rel="noopener">維基百科：應用數學</a></li>',
+'<li><a href="https://zh.wikipedia.org/wiki/数学与科技" target="_blank" rel="noopener">維基百科：數學與科技</a></li>',
+'<li><a href="https://www.google.com/search?q=mathematics+technology+connection+history+foundation" target="_blank" rel="noopener">Google 搜尋：Mathematics Technology Connection</a></li>',
+'<li><a href="https://www.google.com/search?q=math+behind+everyday+technology+smartphone+GPS+AI" target="_blank" rel="noopener">Google 搜尋：Math Behind Everyday Technology</a></li>',
 '</ul>'
 ].join('\n');
 
@@ -1158,14 +1473,13 @@ function buildInferenceView() {
   container.className = 'view';
   container.innerHTML = INFERENCE_HTML;
   main.appendChild(container);
-  enhanceCausalTrees();
+  enhanceCausalTrees('#view-inference');
 }
 
-function enhanceCausalTrees() {
-  document.querySelectorAll('#view-inference pre code').forEach(el => {
+function enhanceCausalTrees(containerId) {
+  document.querySelectorAll(containerId + ' pre code').forEach(el => {
     const text = el.textContent;
-    const pre = el.parentNode;  // the <pre> parent
-    // Cross-domain table tree — style but don't auto-link
+    const pre = el.parentNode;
     if (text.includes('←────→') || text.includes('←───→')) {
       const raw = document.createElement('pre');
       raw.className = 'causal-tree-raw';
@@ -1190,14 +1504,14 @@ function processTreeLine(line) {
   for (const ch of m[1]) {
     styled += '├└│─→>'.includes(ch) ? '<span class="tc">' + ch + '</span>' : ch;
   }
-  // Inline └→/├→ become simple → (linear chain, not hierarchy)
   const rest = m[2].replace(/[├└]→/g, '→').trim();
   const segments = rest.split(/\s*→\s*/).filter(s => s.trim());
   if (segments.length === 0) return styled;
   const linked = segments.map(seg => {
-    const y = seg.match(/^(.+?)\s*\(([\d\s\-a-z+]+)\)\s*$/);
-    const concept = y ? y[1].trim() : seg.trim();
-    const year = y ? y[2] : null;
+    const y = seg.match(/^(.+?)\s*\((\d{4}s?(?:\s*-\s*\d{4})?)\)\s*$/);
+    let concept, year;
+    if (y) { concept = y[1].trim(); year = y[2]; }
+    else { concept = seg.replace(/\s*\([^)]*\)\s*$/, '').trim(); year = null; }
     const url = getConceptUrl(concept);
     const link = '<a href="' + url + '" target="_blank" rel="noopener">' + esc(concept) + '</a>';
     return year ? link + ' <span class="ty">(' + esc(year) + ')</span>' : link;
@@ -1222,9 +1536,43 @@ function getConceptUrl(concept) {
     'ChatGPT': 'ChatGPT', 'CRISPR 基因編輯': 'CRISPR',
     'HIV 治療': 'HIV', 'QR Code': 'QR码',
     'CAR-T 治療': 'CAR-T', 'PC 革命': '個人電腦',
+    // Math-specific mappings
+    'FFT': '快速傅里叶变换', 'DFT': '离散傅里叶变换',
+    'DCT': '离散余弦变换', 'MDCT': '改进的离散余弦变换',
+    'OFDM': 'OFDM', 'PID 控制': 'PID控制器',
+    'SVD': '奇异值分解', 'PCA': '主成分分析',
+    'PageRank': 'PageRank', 'LSTM': '长短期记忆',
+    'CNN': '卷积神经网络', 'RNN': '循环神经网络',
+    'RSA 加密': 'RSA加密算法', 'HTTPS': 'HTTPS',
+    'GPU 運算': '通用图形处理器', 'SPICE': 'SPICE',
+    'QR Code': 'QR码', 'Dijkstra 演算法': '戴克斯特拉算法',
+    'RSA 加密演算法': 'RSA加密算法',
+    '橢圓曲線密碼學': '椭圆曲线密码学',
+    'A/B 測試': 'A/B测试',
+    '梯度下降法': '梯度下降法',
+    '最小平方法': '最小二乘法',
+    '支援向量機': '支持向量机',
+    'PageRank 演算法': 'PageRank',
+    '有限元素法': '有限元法',
+    '知識圖譜': '知识图谱',
+    'Google Maps': 'Google地图',
   };
   if (map[concept]) return wiki + map[concept];
   return wiki + encodeURIComponent(concept);
+}
+
+/* ========== MATH ========== */
+function buildMathView() {
+  const main = document.getElementById('app');
+  const container = document.createElement('div');
+  container.id = 'view-math';
+  container.className = 'view';
+  container.innerHTML = MATH_HTML;
+  main.appendChild(container);
+  enhanceCausalTrees('#view-math');
+  // Render KaTeX and Mermaid
+  try { renderMathInElement(container, {delimiters:[{left:'$$',right:'$$',display:true}]}); } catch(e) {}
+  try { mermaid.run({nodes:[container.querySelector('.mermaid')].filter(Boolean)}); } catch(e) {}
 }
 
 /* ========== SEARCH ========== */
@@ -1328,6 +1676,7 @@ async function init() {
     buildNobelView();
     buildSearchView();
     buildInferenceView();
+    buildMathView();
     setupTabs();
   } catch (e) {
     document.getElementById('loading').textContent = '⚠️ 資料載入失敗：' + e.message;
