@@ -337,6 +337,93 @@
   .tl-bar div { flex: 1; cursor: pointer; opacity: 0.4; transition: 0.15s; }
   .tl-bar div:hover { opacity: 0.8; }
   .tl-bar div.active { opacity: 1; }
+
+  #view-inference {
+    max-width: 900px; margin: 0 auto;
+  }
+  #view-inference h2 {
+    font-size: 1.3rem; color: #ffd700; margin: 1.5rem 0 0.8rem;
+    padding-bottom: 0.3rem; border-bottom: 2px solid #2a2a3e;
+  }
+  #view-inference h3 {
+    font-size: 1.1rem; color: #4fc3f7; margin: 1.2rem 0 0.5rem;
+  }
+  #view-inference h4 {
+    font-size: 0.95rem; color: #81c784; margin: 1rem 0 0.4rem;
+  }
+  #view-inference p { font-size: 0.9rem; line-height: 1.6; margin: 0.5rem 0; color: #ccc; }
+  #view-inference ul, #view-inference ol { margin: 0.4rem 0 0.4rem 1.5rem; }
+  #view-inference li { font-size: 0.88rem; line-height: 1.5; margin: 0.2rem 0; color: #bbb; }
+  .causal-tree {
+    background: linear-gradient(135deg, #0d0d18 0%, #14141f 100%);
+    border: 1px solid #2a2a3e; border-radius: 12px;
+    padding: 1rem 1.5rem; margin: 0.8rem 0;
+    font-family: "SF Mono", "Fira Code", "Noto Sans Mono CJK TC", monospace;
+    font-size: 0.82rem; line-height: 1.7;
+    overflow-x: auto; white-space: pre;
+    position: relative;
+  }
+  .causal-tree::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #4fc3f7, #81c784, #ffb74d, #e57373);
+    border-radius: 12px 12px 0 0; opacity: 0.5;
+  }
+  .causal-tree a {
+    color: #7ecfff; text-decoration: none;
+    padding: 0.06rem 0.25rem; border-radius: 4px;
+    transition: all 0.15s ease;
+    border: 1px solid transparent;
+  }
+  .causal-tree a:hover {
+    color: #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+    border-color: rgba(255, 215, 0, 0.25);
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.06);
+  }
+  .causal-tree .tc { color: #4a4a7a; font-weight: 300; }
+  .causal-tree .ty { color: #555577; font-size: 0.75rem; }
+  .causal-tree-raw {
+    background: linear-gradient(135deg, #0d0d18 0%, #14141f 100%);
+    border: 1px solid #2a2a3e; border-radius: 12px;
+    padding: 1rem 1.5rem; margin: 0.8rem 0;
+    font-family: "SF Mono", "Fira Code", "Noto Sans Mono CJK TC", monospace;
+    font-size: 0.82rem; line-height: 1.7;
+    overflow-x: auto; position: relative; color: #889;
+  }
+  .causal-tree-raw::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #e57373, #ba68c8);
+    border-radius: 12px 12px 0 0; opacity: 0.5;
+  }
+  #view-inference hr {
+    border: none; border-top: 1px solid #2a2a3e; margin: 1.5rem 0;
+  }
+  #view-inference table {
+    width: 100%; border-collapse: collapse; margin: 0.8rem 0;
+    font-size: 0.85rem;
+  }
+  #view-inference th, #view-inference td {
+    border: 1px solid #2a2a3e; padding: 0.5rem 0.7rem; text-align: left;
+  }
+  #view-inference th { background: #1a1a28; color: #aab; font-weight: 600; }
+  #view-inference td { background: #181822; color: #bbb; }
+  #view-inference strong { color: #ffd700; }
+  #view-inference em { color: #88aacc; }
+  #view-inference a { color: #4fc3f7; text-decoration: none; }
+  #view-inference a:hover { text-decoration: underline; }
+  #view-inference .inference-loading {
+    text-align: center; padding: 4rem; color: #556;
+  }
+  #view-inference .inference-header {
+    text-align: center; margin-bottom: 2rem; padding-bottom: 1rem;
+    border-bottom: 1px solid #2a2a3e;
+  }
+  #view-inference .inference-header h1 {
+    font-size: 1.5rem; background: linear-gradient(90deg, #e8d5b7, #ffd700, #e8d5b7);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
 </style>
 </head>
 <body>
@@ -353,6 +440,7 @@
   <div class="tab" data-view="product">📦 產品</div>
   <div class="tab" data-view="nobel">🏆 諾貝爾獎</div>
   <div class="tab" data-view="search">🔍 搜尋</div>
+  <div class="tab" data-view="inference">🧠 推論</div>
 </div>
 
 <div class="main" id="app">
@@ -364,6 +452,316 @@
 <script>
 const GITHUB_BASE = 'https://github.com/cccmag/aisciencetechnology/blob/main';
 let DATA = {};
+
+const INFERENCE_HTML = [
+'<div class="inference-header">',
+'<h1>科技依存推論</h1>',
+'<p style="color:#778;font-size:0.9rem;">沒有 X → 就沒有 Y：126 年科技發展的因果鏈</p>',
+'</div>',
+'<p>科技發展從來不是孤立事件，而是一條條環環相扣的長鏈。每一項新技術都建立在既有技術之上——沒有前人的基礎，就沒有後續的突破。這份文件從年鑑的 126 年跨度出發，梳理出科技發展的關鍵依存關係。</p>',
+'',
+'<h2>1. 從電磁理論到人工智慧</h2>',
+'<pre><code>馬克士威方程組 (1864)',
+'  └→ 電磁波理論',
+'       ├→ 無線電技術 (1895-1901)',
+'       │    ├→ 廣播 (1920)',
+'       │    ├→ 雷達 (1935)',
+'       │    └→ 衛星通信 (1962)',
+'       │         └→ GPS (1973)',
+'       │              └→ 自動駕駛 (2010s)',
+'       └→ 電子發現 (1897)',
+'            └→ 真空管 (1904)',
+'                 └→ 電晶體 (1947)',
+'                      ├→ 積體電路 (1958)',
+'                      │    └→ 微處理器 (1971)',
+'                      │         ├→ 個人電腦 (1975)',
+'                      │         │    └→ 網際網路 (1983)',
+'                      │         │         └→ 雲端運算 (2006)',
+'                      │         │              └→ 大型語言模型 (2017-2023)',
+'                      │         └→ 智慧手機 (2007)',
+'                      │              └→ 行動網路 (4G/5G)',
+'                      └→ 數位訊號處理 (1965)',
+'                           └→ MP3 (1993)',
+'                                └→ 串流媒體 (2008)</code></pre>',
+'<p><strong>推論</strong>：沒有 1864 年馬克士威的電磁方程組，就沒有無線電與現代電子學。沒有 1904 年的真空管，就沒有 1947 年的電晶體。而沒有電晶體與積體電路，就沒有電腦、手機、網路與 AI——整個數位文明都將不存在。</p>',
+'',
+'<h2>2. 從量子理論到半導體產業</h2>',
+'<pre><code>普朗克量子假說 (1900)',
+'  └→ 愛因斯坦光電效應 (1905)',
+'       ├→ 波耳原子模型 (1913)',
+'       │    └→ 量子力學 (1925-1927)',
+'       │         ├→ 能帶理論 (1928)',
+'       │         │    └→ 半導體物理',
+'       │         │         └→ 電晶體 (1947)',
+'       │         │              └→ 太陽能電池 (1954)',
+'       │         │              └→ LED (1962)',
+'       │         └→ 雷射原理 (1917, 1958)',
+'       │              └→ 雷射 (1960)',
+'       │                   ├→ 光纖通信 (1966)',
+'       │                   │    └→ 網際網路骨幹',
+'       │                   ├→ 條碼掃描器 (1974)',
+'       │                   ├→ CD/DVD (1982-1995)',
+'       │                   └→ 半導體微影 (1980s)',
+'       │                        └→ 更小的電晶體',
+'       │                             └→ 摩爾定律',
+'       └→ 光子概念',
+'            └→ 量子電動力學 (1940s)',
+'                 └→ 量子場論',
+'                      └→ 標準模型 (1970s)</code></pre>',
+'<p><strong>推論</strong>：沒有 1900 年普朗克的能量量子化假說，就沒有光電效應的理論解釋，也就沒有能帶理論和半導體物理。整個半導體產業——從電晶體到當今的 AI 晶片——都建立在這個基礎之上。</p>',
+'',
+'<h2>3. 從放射性到核能與醫學</h2>',
+'<pre><code>貝克勒爾發現放射性 (1896)',
+'  └→ 居禮夫婦提煉新元素 (1898-1902)',
+'       ├→ 盧瑟福原子核模型 (1911)',
+'       │    ├→ 質子發現 (1919)',
+'       │    ├→ 中子發現 (1932)',
+'       │    │    └→ 核分裂發現 (1938)',
+'       │    │         ├→ 原子彈 (1945)',
+'       │    │         │    └→ 核威懾 → 冷戰格局',
+'       │    │         └→ 核能發電 (1954)',
+'       │    │              ├→ 核潛艇 (1955)',
+'       │    │              └→ 核融合研究 (1950s-)',
+'       │    └→ 粒子加速器 (1932)',
+'       │         └→ 高能物理 └→ 標準模型',
+'       ├→ 放射性治療 (1903)',
+'       │    └→ 放射腫瘤學',
+'       ├→ 放射性定年法 (1949)',
+'       │    └→ 碳-14 定年 └→ 考古學革命',
+'       └→ 核磁共振 (1938)',
+'            └→ MRI (1973) └→ 醫學診斷革命</code></pre>',
+'<p><strong>推論</strong>：沒有 1896 年貝克勒爾的放射性發現，就沒有原子核物理學。沒有原子核物理學，就沒有核能發電（零碳能源的重要選項），也沒有放射治療和 MRI（現代醫學的兩大支柱）。</p>',
+'',
+'<h2>4. 從航空到太空時代</h2>',
+'<pre><code>萊特兄弟動力飛行 (1903)',
+'  └→ 飛機設計理論',
+'       ├→ 金屬機身 (1915)',
+'       │    └→ 民航客機 (1930s)',
+'       │         ├→ 噴射引擎 (1939)',
+'       │         │    └→ 波音 707 (1958) └→ 大眾航空旅行',
+'       │         └→ 超音速飛行 (1947) └→ 協和號 (1969)',
+'       └→ 火箭技術',
+'            ├→ V-2 火箭 (1942)',
+'            │    └→ 彈道飛彈 (1950s) └→ 太空載具 (1957)',
+'            │         ├→ 人造衛星 (1957)',
+'            │         │    ├→ 通信衛星 (1962)',
+'            │         │    ├→ 氣象衛星 (1960)',
+'            │         │    ├→ GPS (1973)',
+'            │         │    └→ 地球觀測 (1972)',
+'            │         ├→ 載人太空飛行 (1961)',
+'            │         │    └→ 阿波羅登月 (1969)',
+'            │         │         └→ 國際太空站 (1998)',
+'            │         │              └→ 重返月球計畫 (2020s)',
+'            │         └→ 無人探測 (1960s-)',
+'            │              ├→ 火星漫遊車 (1997-)',
+'            │              └→ 航海家星際探測 (1977-)',
+'            └→ 可回收火箭 (2015)',
+'                 └→ 降低太空成本 └→ 星鏈 (2019) └→ 全球衛星網路</code></pre>',
+'<p><strong>推論</strong>：沒有 1903 年萊特兄弟的 12 秒飛行，就沒有航空工業。沒有航空工業奠定的空氣動力學與材料基礎，就沒有 V-2 火箭。沒有火箭技術，就沒有衛星、GPS、太空探測與現代通信——今日全球數十億人依賴的衛星導航與通信都將不存在。</p>',
+'',
+'<h2>5. 從資訊理論到數位時代</h2>',
+'<pre><code>布林代數 (1854)',
+'  └→ 邏輯電路設計',
+'       ├→ 圖靈機 (1936)',
+'       │    └→ 電腦科學基礎',
+'       │         ├→ 馮紐曼架構 (1945) └→ 儲存程式電腦',
+'       │         │    ├→ ENIAC (1946) └→ 商用電腦 (1951)',
+'       │         │    │    └→ 大型主機 (1960s) └→ PC 革命 (1980s) └→ 智慧手機 (2007)',
+'       │         │    └→ 超級電腦 (1976) └→ AI 訓練 (2010s)',
+'       │         └→ 演算法理論',
+'       │              ├→ 排序/搜尋',
+'       │              ├→ 密碼學 (1976) └→ 區塊鏈 (2009)',
+'       │              └→ 機器學習 (1959) └→ 深度學習 (2012)',
+'       │                   ├→ AlphaGo (2016)',
+'       │                   ├→ ChatGPT (2022)',
+'       │                   └→ 通用 AI 探索',
+'       └→ 香農資訊理論 (1948)',
+'            ├→ 數位通信 └→ 數據機 (1950s) └→ 無線數位通信 (1990s)',
+'            │    └→ WiFi (1997) └→ 3G/4G/5G (2000s-2020s)',
+'            └→ 資料壓縮 └→ JPEG (1992) └→ MP3 (1993) └→ 視訊串流 (2005)</code></pre>',
+'<p><strong>推論</strong>：沒有 1854 年布林的邏輯代數，就沒有現代電腦的數學基礎。沒有 1948 年香農的資訊理論，就沒有數位通信、資料壓縮與網際網路——我們每天使用的 JPEG 圖片、MP3 音樂、YouTube 影片都將不可能實現。</p>',
+'',
+'<h2>6. 從微生物學到現代醫學</h2>',
+'<pre><code>巴斯德細菌理論 (1860s)',
+'  └→ 微生物學建立',
+'       ├→ 消毒法 (1867) └→ 無菌手術 └→ 現代外科',
+'       ├→ 疫苗接種',
+'       │    ├→ 狂犬病疫苗 (1885)',
+'       │    ├→ 卡介苗 (1921)',
+'       │    ├→ 小兒麻痺疫苗 (1955) └→ 全球根除計畫',
+'       │    └→ mRNA 疫苗 (2020) └→ 新冠疫情應對',
+'       └→ 病原體鑑定',
+'            ├→ 科赫法則 (1884) └→ 細菌學黃金標準',
+'            ├→ 青黴素發現 (1928) └→ 抗生素時代 (1940s)',
+'            │    └→ 細菌感染控制 └→ 平均壽命延長 20 年',
+'            └→ 病毒發現 (1892) └→ 病毒學',
+'                 ├→ 流感疫苗 (1945)',
+'                 ├→ 干擾素 (1957)',
+'                 └→ 反轉錄病毒 (1970) └→ HIV 治療 (1996)</code></pre>',
+'<p><strong>推論</strong>：沒有 1860 年代巴斯德的細菌理論，就沒有現代醫學的微生物學基礎。沒有青黴素的發現，人類平均壽命將縮短約 20 年。沒有疫苗技術，天花不會被根除，新冠疫情的應對也將完全不同。</p>',
+'',
+'<h2>7. 從遺傳學到基因工程</h2>',
+'<pre><code>孟德爾遺傳定律 (1865)',
+'  └→ 遺傳學建立',
+'       ├→ 染色體遺傳理論 (1903)',
+'       │    └→ 基因概念 (1909)',
+'       │         ├→ 突變研究 (1927) └→ 誘變育種 (1950s) └→ 綠色革命',
+'       │         └→ DNA 是遺傳物質 (1944)',
+'       │              └→ DNA 雙螺旋結構 (1953)',
+'       │                   ├→ 遺傳密碼破解 (1966) └→ 分子生物學',
+'       │                   │    ├→ 限制酶 (1970) └→ 基因重組 (1973)',
+'       │                   │    │    ├→ 基因轉殖作物 (1983) └→ 全球農業革命',
+'       │                   │    │    ├→ 胰島素量產 (1982) └→ 生物製藥產業',
+'       │                   │    │    └→ 基因治療探索 (1990) └→ CAR-T 治療 (2017)',
+'       │                   │    └→ PCR (1983)',
+'       │                   │         ├→ DNA 鑑定 (1984) └→ 法醫學革命',
+'       │                   │         ├→ 病原體檢測 └→ COVID-19 檢測 (2020)',
+'       │                   │         └→ 人類基因組計畫 (1990-2003) └→ 精準醫學 (2010s)',
+'       │                   └→ DNA 定序 (1977)',
+'       │                        └→ 次世代定序 (2005) └→ 個人基因組 (2010s) └→ 遺傳風險預測',
+'       └→ CRISPR 基因編輯 (2012)',
+'            ├→ 基因治療 2.0',
+'            ├→ 基因驅動 └→ 瘧疾控制',
+'            └→ 人造生物學 (2010) └→ 合成基因組</code></pre>',
+'<p><strong>推論</strong>：沒有 1865 年孟德爾的豌豆實驗，就沒有遺傳學。沒有 1953 年華生與克里克的 DNA 結構，就沒有分子生物學革命。沒有 PCR 技術，就沒有 COVID-19 大規模檢測和人類基因組計畫。沒有基因編輯技術，就無法精確修復致病基因。</p>',
+'',
+'<h2>8. 從機械計算到人工智慧</h2>',
+'<pre><code>巴貝奇分析機 (1837)',
+'  └→ 計算機概念',
+'       ├→ 打孔卡片制表機 (1890) └→ IBM 商用計算 (1920s)',
+'       │    └→ 大型主機 (1950s) └→ 企業資訊化',
+'       └→ 圖靈完備概念 (1936) └→ 現代電腦理論基礎',
+'            ├→ 馮紐曼架構 (1945) └→ 通用電子電腦',
+'            │    ├→ 真空管電腦 (1940s)',
+'            │    ├→ 電晶體電腦 (1950s) └→ 大型主機時代',
+'            │    ├→ IC 電腦 (1960s) └→ 迷你電腦 (1965)',
+'            │    │    └→ 個人電腦 (1975)',
+'            │    │         ├→ 圖形介面 (1984)',
+'            │    │         ├→ 網際網路 (1990s)',
+'            │    │         │    └→ 搜尋引擎 (1998) └→ 社群媒體 (2004)',
+'            │    │         └→ 筆記型電腦 (1990s)',
+'            │    └→ 超級電腦 (1976) └→ GPU 運算 (2007)',
+'            │         └→ 深度學習革命 (2012)',
+'            │              ├→ 自然語言處理 └→ ChatGPT (2022)',
+'            │              ├→ 電腦視覺 └→ 自動駕駛',
+'            │              └→ AlphaFold (2021) └→ 蛋白質結構預測 └→ 藥物設計革命',
+'            └→ 摩爾定律 (1965) └→ 指數成長 └→ 每兩年效能翻倍 └→ 現代數位社會</code></pre>',
+'<p><strong>推論</strong>：沒有圖靈的計算理論，就沒有通用電腦的概念。沒有馮紐曼架構，就沒有儲存程式電腦。沒有摩爾定律驅動的指數成長，就沒有今日的手機、網路與 AI——每秒數兆次的運算能力是深度學習得以實現的前提。</p>',
+'',
+'<h2>9. 從交通運輸到全球化</h2>',
+'<pre><code>蒸汽機 (1712)',
+'  └→ 蒸汽火車 (1804) └→ 鐵路網絡 (1830s-)',
+'       ├→ 標準時間 (1883) └→ 全球時區系統',
+'       ├→ 冷鏈物流 (1880s) └→ 全球食品貿易',
+'       └→ 高速鐵路 (1964) └→ 區域經濟整合 └→ 一日生活圈',
+'',
+'內燃機 (1876)',
+'  ├→ 汽車 (1886)',
+'  │    ├→ 福特 T 型車 (1908) └→ 大量生產 └→ 消費社會',
+'  │    └→ 現代汽車工業',
+'  │         ├→ 高速公路 (1940s) └→ 郊區化',
+'  │         ├→ 石油工業 └→ 中東地緣政治',
+'  │         └→ 電動汽車 (2008) └→ 能源轉型',
+'  ├→ 飛機 (1903) └→ 商業航空 (1958) └→ 大眾國際旅行',
+'  │    └→ 全球化 └→ SARS/COVID-19 快速傳播',
+'  └→ 貨櫃船 (1956) └→ 全球供應鏈 └→ 世界貿易組織 (1995) └→ 全球經濟整合</code></pre>',
+'<p><strong>推論</strong>：沒有內燃機，就沒有汽車與飛機，也就沒有現代的城市形態、郊區生活與大眾旅遊。沒有貨櫃標準化，就沒有全球供應鏈，你在商店裡看到的商品將昂貴數倍。沒有汽車與飛機帶來的移動性，全球化——無論是好是壞——都不會發生。</p>',
+'',
+'<h2>10. 從能源到文明型態</h2>',
+'<pre><code>蒸汽機 (1712)',
+'  └→ 工業革命',
+'       ├→ 煤炭開採 └→ 化石燃料經濟',
+'       │    ├→ 石油時代 (1901-)',
+'       │    │    ├→ 內燃機社會',
+'       │    │    ├→ 塑膠 (1907) └→ 石化產業',
+'       │    │    └→ 環境污染 └→ 氣候變遷 (1988-) └→ 能源轉型',
+'       │    ├→ 天然氣',
+'       │    └→ 全球暖化 └→ 碳中和目標 (2050)',
+'       └→ 發電機 (1870s)',
+'            ├→ 電網 (1882)',
+'            │    ├→ 電燈 (1879)',
+'            │    ├→ 電動機 (1888) └→ 工廠自動化',
+'            │    ├→ 電氣化社會',
+'            │    └→ 現代生活型態',
+'            └→ 電力的多樣來源',
+'                 ├→ 水力發電 (1882)',
+'                 ├→ 核能發電 (1954)',
+'                 ├→ 太陽能 (1954)',
+'                 └→ 風力發電 (1980s)',
+'                      └→ 再生能源時代 (2000s-)',
+'                           └→ 電動車 + 儲能 └→ 零碳未來</code></pre>',
+'<p><strong>推論</strong>：沒有蒸汽機就沒有工業革命，沒有化石燃料就沒有現代經濟。但正是化石燃料的使用導致了氣候變遷，現在又反過來推動了再生能源技術的發展。能源型態決定了文明的邊界——從人力和獸力，到煤炭和石油，再到未來的再生能源與核融合。</p>',
+'',
+'<h2>11. 跨領域依存：技術的網路效應</h2>',
+'<pre><code>材料科學 ←────→ 製造技術 ←────→ 能源',
+'    │                  │                  │',
+'    ↓                  ↓                  ↓',
+'   新型材料           精密加工           穩定供電',
+'    │                  │                  │',
+'    └──────────┬──────────┘                │',
+'               │                           │',
+'               ↓                           ↓',
+'           電晶體 (1947)                電腦運算',
+'               │                           │',
+'               └──────────┬──────────┘',
+'                          ↓',
+'                     現代計算',
+'                          │',
+'                          └──→ AI、網路、手機...</code></pre>',
+'<h3>具體範例</h3>',
+'<table><thead>',
+'<tr><th>技術產品</th><th>依賴於</th><th>再依賴於</th><th>最根本的基礎</th></tr>',
+'</thead><tbody>',
+'<tr><td rowspan="8">iPhone</td><td>觸控螢幕</td><td>液晶技術</td><td>物質的光電效應</td></tr>',
+'<tr><td>鋰電池</td><td>電化學</td><td>法拉第電解定律 (1834)</td></tr>',
+'<tr><td>處理器</td><td>半導體製程</td><td>量子力學 (1925)</td></tr>',
+'<tr><td>行動網路</td><td>無線電技術</td><td>馬克士威方程組 (1864)</td></tr>',
+'<tr><td>GPS</td><td>衛星 / 原子鐘</td><td>相對論 (1905/1915)</td></tr>',
+'<tr><td>網際網路</td><td>TCP/IP</td><td>資訊理論 (1948)</td></tr>',
+'<tr><td>觸控技術</td><td>電容感測</td><td>庫倫定律 (1785)</td></tr>',
+'<tr><td>Siri/AI</td><td>深度學習</td><td>圖靈計算理論 (1936)</td></tr>',
+'<tr><td rowspan="3">mRNA 疫苗</td><td>脂質奈米顆粒</td><td>奈米技術</td><td>膠體化學</td></tr>',
+'<tr><td>基因定序</td><td>PCR / 限制酶</td><td>DNA 結構 (1953)</td></tr>',
+'<tr><td>冷鏈物流</td><td>鐵路與貨櫃</td><td>蒸汽機 (1712)</td></tr>',
+'</tbody></table>',
+'',
+'<h2>12. 結論：技術樹與路徑依賴</h2>',
+'<p>從這份年鑑的 126 年跨度來看，技術發展呈現鮮明的樹狀結構：</p>',
+'<p><strong>每一項重大技術都有一個不可跳過的先決條件節點：</strong></p>',
+'<ul>',
+'<li>沒有 <strong>電子發現</strong> → 就沒有真空管 → 也就沒有電晶體 → 更沒有現代電子</li>',
+'<li>沒有 <strong>量子力學</strong> → 就沒有半導體物理 → 也就沒有 IC 設計</li>',
+'<li>沒有 <strong>DNA 結構</strong> → 就沒有基因工程 → 也就沒有精準醫療</li>',
+'<li>沒有 <strong>資訊理論</strong> → 就沒有數位通信 → 也就沒有網際網路</li>',
+'<li>沒有 <strong>火箭技術</strong> → 就沒有衛星 → 也就沒有 GPS 與全球通信</li>',
+'</ul>',
+'<p><strong>先決條件的先決條件：</strong></p>',
+'<ul>',
+'<li>沒有 <strong>顯微鏡</strong> (1590) → 就沒有細菌發現 (1683) → 就沒有微生物學 → 就沒有疫苗</li>',
+'<li>沒有 <strong>望遠鏡</strong> (1608) → 就沒有天文學革命 → 就沒有宇宙學</li>',
+'<li>沒有 <strong>印刷術</strong> (1040) → 就沒有知識傳播 → 就沒有科學革命</li>',
+'<li>沒有 <strong>數學</strong> → 什麼都沒有</li>',
+'</ul>',
+'<p><strong>路徑依賴：</strong>一旦選擇了某條技術路線，後續發展就被鎖定在這條路徑上。例如：</p>',
+'<ul>',
+'<li>交流電 vs 直流電 → 全球電網標準化</li>',
+'<li>QWERTY 鍵盤 → 即使效率不是最佳，也無法改變</li>',
+'<li>矽基半導體 → 整個產業鏈圍繞矽建立</li>',
+'<li>C 語言 / x86 架構 → 數十年的生態系統積累</li>',
+'</ul>',
+'<p><strong>創新並非憑空出現，而是在既有技術的邊界上向前邁出的一小步。</strong>了解這些依存關係，不僅幫助我們理解歷史，更能指引未來的創新方向——真正的突破往往來自於找到並解開那些制約下一步發展的關鍵節點。</p>',
+'',
+'<hr>',
+'<p><strong>延伸閱讀：</strong></p>',
+'<ul>',
+'<li><a href="https://zh.wikipedia.org/wiki/科技史" target="_blank" rel="noopener">維基百科：科技史</a></li>',
+'<li><a href="https://zh.wikipedia.org/wiki/科學革命" target="_blank" rel="noopener">維基百科：科學革命</a></li>',
+'<li><a href="https://zh.wikipedia.org/wiki/工業革命" target="_blank" rel="noopener">維基百科：工業革命</a></li>',
+'<li><a href="https://zh.wikipedia.org/wiki/數位革命" target="_blank" rel="noopener">維基百科：數位革命</a></li>',
+'<li><a href="https://www.google.com/search?q=technology+development+tree+history+timeline" target="_blank" rel="noopener">Google 搜尋：Technology Tree 科技樹 歷史</a></li>',
+'<li><a href="https://www.google.com/search?q=path+dependence+technology+development" target="_blank" rel="noopener">Google 搜尋：Path dependence 路徑依賴 科技發展</a></li>',
+'</ul>'
+].join('\n');
 
 function articleUrl(year, filename) {
   return GITHUB_BASE + '/' + year + '/' + filename;
@@ -752,6 +1150,83 @@ function renderNobelList(filter) {
   });
 }
 
+/* ========== INFERENCE ========== */
+function buildInferenceView() {
+  const main = document.getElementById('app');
+  const container = document.createElement('div');
+  container.id = 'view-inference';
+  container.className = 'view';
+  container.innerHTML = INFERENCE_HTML;
+  main.appendChild(container);
+  enhanceCausalTrees();
+}
+
+function enhanceCausalTrees() {
+  document.querySelectorAll('#view-inference pre code').forEach(el => {
+    const text = el.textContent;
+    const pre = el.parentNode;  // the <pre> parent
+    // Cross-domain table tree — style but don't auto-link
+    if (text.includes('←────→') || text.includes('←───→')) {
+      const raw = document.createElement('pre');
+      raw.className = 'causal-tree-raw';
+      raw.textContent = text;
+      pre.parentNode.replaceChild(raw, pre);
+      return;
+    }
+    const lines = text.split('\n');
+    const html = lines.map(line => processTreeLine(line)).join('\n');
+    const div = document.createElement('div');
+    div.className = 'causal-tree';
+    div.innerHTML = html;
+    pre.parentNode.replaceChild(div, pre);
+  });
+}
+
+function processTreeLine(line) {
+  if (line.trim() === '') return '';
+  const m = line.match(/^(\s*[├└│\s─→>]*\s*)(.+)$/);
+  if (!m) return esc(line);
+  let styled = '';
+  for (const ch of m[1]) {
+    styled += '├└│─→>'.includes(ch) ? '<span class="tc">' + ch + '</span>' : ch;
+  }
+  // Inline └→/├→ become simple → (linear chain, not hierarchy)
+  const rest = m[2].replace(/[├└]→/g, '→').trim();
+  const segments = rest.split(/\s*→\s*/).filter(s => s.trim());
+  if (segments.length === 0) return styled;
+  const linked = segments.map(seg => {
+    const y = seg.match(/^(.+?)\s*\(([\d\s\-a-z+]+)\)\s*$/);
+    const concept = y ? y[1].trim() : seg.trim();
+    const year = y ? y[2] : null;
+    const url = getConceptUrl(concept);
+    const link = '<a href="' + url + '" target="_blank" rel="noopener">' + esc(concept) + '</a>';
+    return year ? link + ' <span class="ty">(' + esc(year) + ')</span>' : link;
+  });
+  return styled + linked.join(' <span class="tc">→</span> ');
+}
+
+function getConceptUrl(concept) {
+  const wiki = 'https://zh.wikipedia.org/wiki/';
+  const map = {
+    'GPS': '全球定位系统', 'LED': 'LED', 'MRI': '磁共振成像',
+    'PCR': '聚合酶链式反应', 'CRISPR': 'CRISPR', 'CAR-T': 'CAR-T',
+    'QWERTY': 'QWERTY', 'GPU': '图形处理器', 'WiFi': 'Wi-Fi',
+    'x86': 'X86', 'AI': '人工智能', 'V-2 火箭': 'V-2火箭',
+    'TCP/IP': 'TCP/IP协议族', 'ENIAC': 'ENIAC', 'LIGO': 'LIGO',
+    'mRNA 疫苗': 'mRNA疫苗', 'mRNA': '信使核糖核酸',
+    'Siri': 'Siri', 'MP3': 'MP3', 'iPhone': 'iPhone',
+    'DNA 雙螺旋結構': 'DNA', 'DNA 結構': 'DNA',
+    'DNA 鑑定': 'DNA分型', 'DNA 定序': 'DNA测序',
+    'DNA 是遺傳物質': 'DNA', 'C 語言': 'C语言',
+    'AlphaGo': 'AlphaGo', 'AlphaFold': 'AlphaFold',
+    'ChatGPT': 'ChatGPT', 'CRISPR 基因編輯': 'CRISPR',
+    'HIV 治療': 'HIV', 'QR Code': 'QR码',
+    'CAR-T 治療': 'CAR-T', 'PC 革命': '個人電腦',
+  };
+  if (map[concept]) return wiki + map[concept];
+  return wiki + encodeURIComponent(concept);
+}
+
 /* ========== SEARCH ========== */
 function buildSearchView() {
   const main = document.getElementById('app');
@@ -852,6 +1327,7 @@ async function init() {
     buildProductView();
     buildNobelView();
     buildSearchView();
+    buildInferenceView();
     setupTabs();
   } catch (e) {
     document.getElementById('loading').textContent = '⚠️ 資料載入失敗：' + e.message;
