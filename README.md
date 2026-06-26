@@ -7,6 +7,10 @@
 ## 網頁入口
 
 * [科學技術年鑑 -- 網頁入口](https://cccmag.github.io/aisciencetechnology/_html/index.html)
+* 分類年表：  
+    * [物理](physics.md) / [化學](chemistry.md) / [生物學](biology.md) / [天文學](astronomy.md)
+    * [電子](electronics.md) / [電腦](computer.md) / [人工智慧](ai.md) / [通訊](communication.md)
+    * [能源](energy.md) / [材料](material.md) / [機械](mechanics.md)
 
 ## 年鑑列表
 
